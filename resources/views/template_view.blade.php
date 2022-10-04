@@ -20,6 +20,7 @@ License: You must have a valid license purchased only from wrapbootstrap.com (li
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <!-- Remove Tap Highlight on Windows Phone IE -->
         <meta name="msapplication-tap-highlight" content="no">
+        <meta name="csrf-token" content="{{ csrf_token() }}" />
         <!-- base css -->
         <link id="vendorsbundle" rel="stylesheet" media="screen, print" href="{{ asset('asset/css/vendors.bundle.css') }}">
         <link id="appbundle" rel="stylesheet" media="screen, print" href="{{ asset('asset/css/app.bundle.css') }}">
@@ -175,25 +176,32 @@ License: You must have a valid license purchased only from wrapbootstrap.com (li
                             </a>
                             <ul>
                                 <li>
-                                    <a href="form_basic_inputs.html" title="Basic Inputs"
+                                    <a href="{{ url('kategori_ujian') }}" title="Basic Inputs"
                                         data-filter-tags="form stuff basic inputs">
                                         <span class="nav-link-text" data-i18n="nav.form_stuff_basic_inputs">Kategori Ujian</span>
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="form_checkbox_radio.html" title="Checkbox & Radio"
+                                    <a href="{{ url('sekolah') }}" title="Validation"
+                                        data-filter-tags="form stuff validation">
+                                        <span class="nav-link-text"
+                                            data-i18n="nav.form_stuff_validation">Sekolah</span>
+                                    </a>
+                                </li>
+                                <li>
+                                <a href="{{ url('user') }}" title="Checkbox & Radio"
                                         data-filter-tags="form stuff checkbox & radio">
                                         <span class="nav-link-text" data-i18n="nav.form_stuff_checkbox_&_radio">User</span>
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="form_input_groups.html" title="Input Groups"
+                                <a href="{{ url('jenjang') }}" title="Input Groups"
                                         data-filter-tags="form stuff input groups">
                                         <span class="nav-link-text" data-i18n="nav.form_stuff_input_groups">Jenjang</span>
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="form_validation.html" title="Validation"
+                                <a href="{{ url('kecamatan') }}" title="Validation"
                                         data-filter-tags="form stuff validation">
                                         <span class="nav-link-text"
                                             data-i18n="nav.form_stuff_validation">Kecamatan</span>

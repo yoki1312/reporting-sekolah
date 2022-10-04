@@ -22,4 +22,11 @@ class ReferensiSelect2Controller extends Controller
         }
         return DB::select($sql);
     }
+    public function select2jenjang(Request $request){
+        $sql = "select * from m_jenjang where 1 =1";
+        if(isset($request->q)){
+            $sql .= " and nama_jenjang LIKE '%$request->q%' ";
+        }
+        return DB::select($sql);
+    }
 }

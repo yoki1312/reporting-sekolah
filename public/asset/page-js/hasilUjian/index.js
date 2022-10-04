@@ -17,6 +17,7 @@ $(document).ready(function () {
             data: function (d) {
                 d.id_kecamatan = $('.id_kecamatan').val();
                 d.id_sekolah = $('.id_sekolah').val();
+                d.id_jenjang = $('.id_jenjang').val();
                 return d;
             }
         },
@@ -67,6 +68,28 @@ $(document).ready(function () {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     });
+	$('.id_jenjang').select2({
+		placeholder: 'Pilih Jenjang',
+		allowClear: true,
+		ajax: {
+			dataType: "json",
+			method: 'POST',
+			url: baseurl + "referensi/jenjangSelect2",
+			delay: 300,
+			processResults: function (data) {
+				return {
+					results: data.map(function (item) {
+						item.id = item.id_jenjang;
+						item.text = item.nama_jenjang;
+						return item;
+					})
+				};
+			},
+		},
+		escapeMarkup: function (m) {
+			return m;
+		}
+	});
 
     $('.id_kecamatan').select2({
 		placeholder: 'Pilih Kecamatan',

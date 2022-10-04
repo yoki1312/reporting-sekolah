@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\JenjangModels;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 use App\Models\SekolahModels;
 use Illuminate\Support\Facades\DB;
 
-class SekolahController extends Controller
+class JenjangController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,33 +18,16 @@ class SekolahController extends Controller
     public function index(Request $request)
     {
         if (request()->ajax()) {
-            $users = SekolahModels::leftjoin('m_kecamatan AS ta','ta.id_kecamatan','=','m_sekolahan.id_kecamatan')
-            ->leftjoin('m_jenjang AS tb','tb.id_jenjang','m_sekolahan.id_jenjang')
-            ->select('m_sekolahan.*','ta.nama_kecamatan','tb.nama_jenjang');
-            
-            if(!empty($request->id_kecamatan)){
-                foreach($request->id_kecamatan as $id){
-                    $users->orWhere('ta.id_kecamatan', $id);
-                }
-            }
-            if(!empty($request->id_jenjang)){
-                $users->where('m_sekolahan.id_jenjang', $request->id_jenjang);
-            }
-            $users->get(); 
-            $users = $users->get(); 
+            $users = JenjangModels::all(); 
 
 
             return DataTables::of($users)
-                ->addColumn('action', function($row) {
-                    return '<a href="'. url('hasil_ujian/detail/'.$row->id_user) .'" class="btn btn-sm btn-warning"> Detail</a>';
-                })
                 ->withQuery('count', function($filteredQuery) {
                     return $filteredQuery->count();
                 })
-                ->rawColumns(['action'])
                 ->make(true);
         }
-        return view('master.sekolah.view');
+        return view('master.jenjang.view');
     }
 
     /**
