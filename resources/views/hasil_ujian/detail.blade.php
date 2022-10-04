@@ -21,10 +21,20 @@
                         <input type="text" readonly class="form-control-plaintext" id="staticEmail"
                             value=": {{ $users->nip }}">
                     </div>
+                    <label for="inputPassword" class="col-sm-3 col-form-label">Nama Sekolah</label>
+                    <div class="col-sm-9">
+                        <input type="text" readonly class="form-control-plaintext" id="staticEmail"
+                            value=": {{ $users->nama_sekolahan }}">
+                    </div>
                     <label for="inputPassword" class="col-sm-3 col-form-label">Jenjang</label>
                     <div class="col-sm-9">
                         <input type="text" readonly class="form-control-plaintext" id="staticEmail"
                             value=": {{ $users->nama_jenjang }}">
+                    </div>
+                    <label for="inputPassword" class="col-sm-3 col-form-label">Kecamatan</label>
+                    <div class="col-sm-9">
+                        <input type="text" readonly class="form-control-plaintext" id="staticEmail"
+                            value=": {{ $users->nama_kecamatan }}">
                     </div>
                     <label for="inputPassword" class="col-sm-3 col-form-label">Nilai Ujian</label>
                     <div class="col-sm-9">
@@ -33,6 +43,7 @@
                     </div>
 
                     <div class="col-sm-12 form-group">
+                        <hr>
                         <h4>Nilai Ujian Per Kategori </h4>
                         <table class="table table-bordered table-sm" id="dt-hasil">
                             <thead>

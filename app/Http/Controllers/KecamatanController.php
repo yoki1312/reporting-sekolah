@@ -18,7 +18,10 @@ class KecamatanController extends Controller
     public function index(Request $request)
     {
         if (request()->ajax()) {
-            $users = KecamatanModels::all(); 
+            $users = KecamatanModels::leftjoin('m_sekolahan as ta','ta.id_kecamatan','m_kecamatan.id_kecamatan')
+            ->select(DB::RAW('m_kecamatan.*, count(ta.id_kecamatan) total_sekolah'))
+            ->groupBy('m_kecamatan.id_kecamatan')
+            ->get();
 
 
             return DataTables::of($users)

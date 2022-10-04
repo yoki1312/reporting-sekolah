@@ -31,6 +31,15 @@ $(document).ready(function () {
                 data: 'nama_kecamatan',
                 className: 'text-left',
             },
+            {
+                data: 'nama_kecamatan',
+                className: 'text-right',
+                orderable: false,
+                searchable: false,
+                render : function(meta,data,row){
+                    return row.total_sekolah + ' Sekolah'
+                }
+            },
 
 
         ]

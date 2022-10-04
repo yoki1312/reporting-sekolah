@@ -166,7 +166,7 @@ License: You must have a valid license purchased only from wrapbootstrap.com (li
                         <li>
                             <a href="{{ url('hasil_ujian') }}" title="Hasil Ujian" data-filter-tags="hasil ujian">
                                 <i class="fal fa-edit"></i>
-                                <span class="nav-link-text" data-i18n="nav.tables">Hasil Ujian</span>
+                                <span class="nav-link-text" data-i18n="nav.hasil_ujian">Hasil Ujian</span>
                             </a>
                         </li>
                         <li>

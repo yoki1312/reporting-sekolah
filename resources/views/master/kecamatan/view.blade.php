@@ -27,6 +27,7 @@
                             <tr class="text-center">
                                 <th class="text-center" scope="col">No</th>
                                 <th class="text-center" scope="col">Nama Kecamatan</th>
+                                <th class="text-center" scope="col">Total Sekolah</th>
                             </tr>
                         </thead>
                         <tbody>
