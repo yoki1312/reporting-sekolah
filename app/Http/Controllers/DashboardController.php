@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\SekolahModels;
+use Yajra\DataTables\Facades\DataTables;
+use App\Models\UserModels;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Ramsey\Uuid\Type\Decimal;
-
+// User
 class DashboardController extends Controller
 {
     /**
@@ -68,35 +71,92 @@ class DashboardController extends Controller
      */
     public function rata_rata_nilai(Request $request)
     {
-        $data = DB::select("SELECT tc.id_kecamatan, ta.id_kategori_ujian, sum( jumlah_benar ) nilai, tx.total_peserta, sum( jumlah_benar ) / tx.total_peserta as rata_rata, td.nama_kecamatan FROM t_nilai_ujian ta LEFT JOIN m_user tb ON tb.id_user = ta.id_user LEFT JOIN m_sekolahan tc ON tc.id_sekolahan = tb.id_sekolah left join m_kecamatan td on td.id_kecamatan = tc.id_kecamatan left join (SELECT id_kecamatan, count( ta.id_user ) total_peserta FROM m_user ta LEFT JOIN m_sekolahan tb ON tb.id_sekolahan = ta.id_sekolah WHERE tb.id_jenjang = $request->id_jenjang GROUP BY tb.id_kecamatan ) tx on tx.id_kecamatan = tc.id_kecamatan WHERE tc.id_jenjang = 1 GROUP BY tc.id_kecamatan, tc.id_jenjang, ta.id_kategori_ujian");
-        $data = collect($data)->groupBy(['id_kecamatan','id_kategori_ujian'])->toArray();
+        $data = DB::select("SELECT
+        tc.id_kecamatan,
+        ta.id_kategori_ujian,
+        sum( jumlah_benar ) nilai,
+        sum( jumlah_benar ) / ty.total_peserta AS rata_rata,
+        td.nama_kecamatan 
+    FROM
+        t_nilai_ujian ta
+        LEFT JOIN m_user tb ON tb.id_user = ta.id_user
+        left join m_user_sekolah tx on tx.id_user = tb.id_user
+        LEFT JOIN m_sekolahan tc ON tc.id_sekolahan = tx.id_sekolah
+        LEFT JOIN m_kecamatan td ON td.id_kecamatan = tc.id_kecamatan
+        left join (SELECT
+        tc.id_kecamatan,
+        count( ta.nama_user ) total_peserta 
+    FROM
+        m_user ta
+        LEFT JOIN m_user_sekolah tb ON tb.id_user = ta.id_user
+        LEFT JOIN m_sekolahan tc ON tc.id_sekolahan = tb.id_sekolah 
+    WHERE
+        tc.id_jenjang = $request->id_jenjang 
+        AND tb.id_jabatan = $request->id_jabatan 
+    GROUP BY
+        tc.id_kecamatan) ty on ty.id_kecamatan = td.id_kecamatan
+    WHERE
+        tc.id_jenjang = $request->id_jenjang
+        and tx.id_jabatan = $request->id_jabatan
+    GROUP BY
+        tc.id_kecamatan");
+        $data = collect($data)->groupBy(['id_kecamatan'])->toArray();
         $arr = array();
         $arr[] = array('Kecamatan',
-        'Pedagogik',array( 'type' => 'string', 'role' => 'annotation' ),
-        'Profesional Umum',array( 'type' => 'string', 'role' => 'annotation' ),
-        'Kepribadian',array( 'type' => 'string', 'role' => 'annotation' ),
-        'Sosial',array( 'type' => 'string', 'role' => 'annotation' ),
-        'Merdeka Belajar',array( 'type' => 'string', 'role' => 'annotation' ),
-        'PKB',array( 'type' => 'string', 'role' => 'annotation' ));
+        'Rata Rata',array( 'type' => 'string', 'role' => 'annotation' ));
         foreach($data as $key => $val){
-            $nama_kec = $val[1][0]->nama_kecamatan;
+            $nama_kec = $val[0]->nama_kecamatan;
             $arr[] = array(
                 $nama_kec,
-                floatval($val[1][0]->rata_rata),
-                floatval($val[1][0]->rata_rata),
-                floatval($val[2][0]->rata_rata),
-                floatval($val[2][0]->rata_rata),
-                floatval($val[3][0]->rata_rata),
-                floatval($val[3][0]->rata_rata),
-                floatval($val[4][0]->rata_rata),
-                floatval($val[4][0]->rata_rata),
-                floatval($val[5][0]->rata_rata),
-                floatval($val[5][0]->rata_rata),
-                floatval($val[6][0]->rata_rata),
-                floatval($val[6][0]->rata_rata),
+                floatval($val[0]->rata_rata),
+                floatval($val[0]->rata_rata),
             );
         }
         return $arr;
+    }
+
+    public function hasil_ujian(Request $request)
+    {
+        if (request()->ajax()) {
+            $users = SekolahModels::leftjoin('m_user_sekolah as tb','tb.id_sekolah','m_sekolahan.id_sekolahan')
+            ->leftjoin('m_user as tf','tf.id_user','tb.id_user')
+            ->leftjoin('m_kecamatan as td', 'td.id_kecamatan','m_sekolahan.id_kecamatan')
+            ->leftjoin('m_jenjang as te','te.id_jenjang','m_sekolahan.id_jenjang')
+            ->leftjoin(DB::RAW(" (SELECT sum( jumlah_benar ) nilai, id_user FROM t_nilai_ujian GROUP BY id_user ) pa"), function($join){
+                    $join->on('pa.id_user','=','tf.id_user');
+            })
+            ->select(DB::RAW('m_sekolahan.*, td.nama_kecamatan, te.nama_jenjang, sum(pa.nilai) / count( tf.id_user )  nilai_rata_rata, count( tf.id_user )'));
+           
+            if(!empty($request->id_sekolah)){
+                $users->where('m_sekolahan.id_sekolahan', $request->id_sekolah);
+            }
+            if(!empty($request->id_jenjang)){
+                $users->where('m_sekolahan.id_jenjang', $request->id_jenjang);
+            }
+
+            if(!empty($request->id_kecamatan)){
+                $id_kec = implode(",",$request->id_kecamatan);
+                $users->whereRaw("td.id_kecamatan in ($id_kec)");
+            }
+
+
+            $users->groupby('m_sekolahan.id_sekolahan');
+            $users->orderByRaw('sum(pa.nilai) / count( tf.id_user ) desc')->limit('10')->get();
+        
+            $users = $users->get();
+
+
+            return DataTables::of($users)
+                ->addColumn('action', function($row) {
+                    return '<a href="'. url('hasil_ujian/detail/'.$row->id_user) .'" class="btn btn-sm btn-warning"> Detail</a>';
+                })
+                ->withQuery('count', function($filteredQuery) {
+                    return $filteredQuery->count();
+                })
+                ->rawColumns(['action'])
+                ->make(true);
+        }
+        return view('hasil_ujian.view');
     }
 
     /**
