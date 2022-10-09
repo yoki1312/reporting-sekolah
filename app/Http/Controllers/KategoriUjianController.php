@@ -18,7 +18,7 @@ class KategoriUjianController extends Controller
     public function index(Request $request)
     {
         if (request()->ajax()) {
-            $users = KategoriUjian::all(); 
+            $users = KategoriUjian::leftjoin('m_jabatan as ta','ta.id_jabatan','m_kategori_ujian.id_jabatan')->get(); 
 
 
             return DataTables::of($users)

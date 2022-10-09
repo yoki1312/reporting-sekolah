@@ -16,7 +16,29 @@ class UserController extends Controller
     public function index(Request $request)
     {
         if (request()->ajax()) {
-            $users = UserModels::all(); 
+            $users = UserModels::leftjoin('m_user_sekolah as ta','ta.id_user','m_user.id_user')
+            ->leftjoin('m_sekolahan as tb','tb.id_sekolahan','ta.id_sekolah')
+            ->leftjoin('m_jabatan as tc','tc.id_jabatan','ta.id_jabatan')
+            ->leftjoin('m_kecamatan as td','td.id_kecamatan','tb.id_kecamatan')
+            ->leftjoin('m_jenjang as te', 'te.id_jenjang','tb.id_jenjang' )
+            ->select('m_user.*','tb.nama_sekolahan','tc.nama_jabatan','td.nama_kecamatan','te.nama_jenjang');
+            if(!empty($request->id_sekolah)){
+                $users->where('tb.id_sekolahan', $request->id_sekolah);
+            }
+            if(!empty($request->id_jenjang)){
+                $q = implode(",",$request->id_jenjang);
+                $users->whereRaw("tb.id_jenjang in ($q)");
+            }
+            if(!empty($request->id_jabatan)){
+                $users->where('ta.id_jabatan', $request->id_jabatan);
+            }
+
+            if(!empty($request->id_kecamatan)){
+                $id_kec = implode(",",$request->id_kecamatan);
+                $users->whereRaw("td.id_kecamatan in ($id_kec)");
+            }
+            $users = $users->get();
+
 
 
             return DataTables::of($users)

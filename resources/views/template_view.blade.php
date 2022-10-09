@@ -164,6 +164,12 @@ License: You must have a valid license purchased only from wrapbootstrap.com (li
                         </div>
                         <ul id="js-nav-menu" class="nav-menu">
                         <li>
+                            <a href="{{ url('/') }}" title="Hasil Ujian" data-filter-tags="hasil ujian">
+                                <i class="fal fa-edit"></i>
+                                <span class="nav-link-text" data-i18n="nav.hasil_ujian">Dashboard</span>
+                            </a>
+                        </li>
+                        <li>
                             <a href="{{ url('hasil_ujian') }}" title="Hasil Ujian" data-filter-tags="hasil ujian">
                                 <i class="fal fa-edit"></i>
                                 <span class="nav-link-text" data-i18n="nav.hasil_ujian">Hasil Ujian</span>
@@ -2600,6 +2606,7 @@ License: You must have a valid license purchased only from wrapbootstrap.com (li
         <script src="{{ asset('asset/js/app.bundle.js') }}"></script>
         <script src="{{ asset('asset/js/datagrid/datatables/datatables.bundle.js') }}"></script>
         <script src="{{ asset('asset/js/datagrid/datatables/datatables.bundle.js') }}"></script>
+        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script src="{{ asset('asset/js/formplugins/select2/select2.bundle.js') }}"></script>
 
         <script>
@@ -2613,6 +2620,7 @@ License: You must have a valid license purchased only from wrapbootstrap.com (li
     ?>
     <script src="<?= asset('asset/page-js/'. $conttroller.'/'.$action .'.js') ?>"> </script>
     <?php endif; ?>
+    @yield('chart-js')
     </body>
     <!-- END Body -->
 </html>

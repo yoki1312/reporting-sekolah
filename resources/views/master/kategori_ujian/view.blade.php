@@ -27,6 +27,7 @@
                             <tr class="text-center">
                                 <th class="text-center" scope="col">No</th>
                                 <th class="text-center" scope="col">Nama Ujian</th>
+                                <th class="text-center" scope="col">Kategori Jabatan</th>
                                 <th class="text-center" scope="col">Jumlah Soal Ujian</th>
                             </tr>
                         </thead>

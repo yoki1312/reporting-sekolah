@@ -26,16 +26,18 @@ class HasilUjianController extends Controller
             if(!empty($request->id_sekolah)){
                 $users->where('tc.id_sekolahan', $request->id_sekolah);
             }
-
-            if(!empty($request->id_kecamatan)){
-                foreach($request->id_kecamatan as $id){
-                    $users->orWhere('td.id_kecamatan', $id);
-                }
-            }
-
             if(!empty($request->id_jenjang)){
                 $users->where('tc.id_jenjang', $request->id_jenjang);
             }
+            if(!empty($request->id_jabatan)){
+                $users->where('tb.id_jabatan', $request->id_jabatan);
+            }
+
+            if(!empty($request->id_kecamatan)){
+                $id_kec = implode(",",$request->id_kecamatan);
+                $users->whereRaw("td.id_kecamatan in ($id_kec)");
+            }
+
 
             $users->groupby('m_user.id_user');
             $users->get();

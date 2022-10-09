@@ -1,11 +1,12 @@
 $(document).ready(function () {
+	$('.id_jabatan').select2({})
    let table = $('#dt-hasil').DataTable({
         "autoWidth": false,
 		"responsive": false,
 		"scrollCollapse": true,
 		"processing": true,
 		"serverSide": true,
-		"displayLength": 25,
+		"displayLength": 15,
 		"paginate": true,
 		"lengthChange": false,
 		"filter": true,
@@ -17,6 +18,7 @@ $(document).ready(function () {
             data: function (d) {
                 d.id_kecamatan = $('.id_kecamatan').val();
                 d.id_sekolah = $('.id_sekolah').val();
+                d.id_jabatan = $('.id_jabatan').val();
                 d.id_jenjang = $('.id_jenjang').val();
                 return d;
             }
@@ -39,8 +41,8 @@ $(document).ready(function () {
                 className:'text-center'
             },
             {
-                data: 'sekolah',
-                className:'text-center'
+                data: 'nama_sekolahan',
+                className:'text-left'
             },
             {
                 data: 'nama_kecamatan',
