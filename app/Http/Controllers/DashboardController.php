@@ -35,7 +35,7 @@ class DashboardController extends Controller
             $tk = $val[1][0]->total_peserta;
             $sd = $val[2][0]->total_peserta;
             $smp = $val[3][0]->total_peserta;
-            $ar[] = array($nama_kecamatan,$tk, $tk,$sd, $sd,$smp, $smp);
+            $ar[] = array($nama_kecamatan,floatval($tk), floatval($tk),floatval($sd), floatval($sd),floatval($smp), floatval($smp));
         }
         // printJSON($ar);
         // // dd($data);
@@ -57,7 +57,7 @@ class DashboardController extends Controller
             $tk = $val[1][0]->total_sekolah;
             $sd = $val[2][0]->total_sekolah;
             $smp = $val[3][0]->total_sekolah;
-            $ar[] = array($nama_kecamatan,$tk, $tk,$sd, $sd,$smp, $smp);
+            $ar[] = array($nama_kecamatan,floatval($tk), floatval($tk),floatval($sd), floatval($sd),floatval($smp), floatval($smp));
         }
         // printJSON($ar);
         // // dd($data);
