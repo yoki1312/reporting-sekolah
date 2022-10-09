@@ -159,6 +159,52 @@ class DashboardController extends Controller
         return view('hasil_ujian.view');
     }
 
+    public function hasil_ujian_guru(Request $request)
+    {
+        if (request()->ajax()) {
+            $users = UserModels::leftjoin('t_nilai_ujian as ta','ta.id_user','m_user.id_user')
+            ->leftjoin('m_user_sekolah as tb','tb.id_user','m_user.id_user')
+            ->leftjoin("m_sekolahan as tc", 'tc.id_sekolahan','tb.id_sekolah')
+            ->leftjoin("m_jenjang as td", "td.id_jenjang","tc.id_jenjang")
+            ->leftjoin("m_kecamatan as te", "te.id_kecamatan","tc.id_kecamatan")
+            ->leftjoin(DB::RAW( "(SELECT count(id_user) peserta, id_sekolah from m_user_sekolah where id_jabatan = $request->id_jabatan GROUP BY id_sekolah) pa" ), function($join){
+                $join->on('pa.id_sekolah','=','tc.id_sekolahan');
+            })
+            ->select(DB::RAW("m_user.* , tc.nama_sekolahan , td.nama_jenjang, te.nama_kecamatan, sum(ta.jumlah_benar) / pa.peserta as nilai_rata_rata "));
+
+            $users->where('tb.id_jabatan', $request->id_jabatan);
+            if(!empty($request->id_sekolah)){
+                $users->where('tc.id_sekolahan', $request->id_sekolah);
+            }
+            if(!empty($request->id_jenjang)){
+                $users->where('tc.id_jenjang', $request->id_jenjang);
+            }
+
+            if(!empty($request->id_kecamatan)){
+                $id_kec = implode(",",$request->id_kecamatan);
+                $users->whereRaw("te.id_kecamatan in ($id_kec)");
+            }
+
+
+            $users->groupby('m_user.id_user');
+            $users->orderByRaw('sum(ta.jumlah_benar) / pa.peserta desc')->limit('10')->get();
+        
+            $users = $users->get();
+
+
+            return DataTables::of($users)
+                ->addColumn('action', function($row) {
+                    return '<a href="'. url('hasil_ujian/detail/'.$row->id_user) .'" class="btn btn-sm btn-warning"> Detail</a>';
+                })
+                ->withQuery('count', function($filteredQuery) {
+                    return $filteredQuery->count();
+                })
+                ->rawColumns(['action'])
+                ->make(true);
+        }
+        return view('hasil_ujian.view');
+    }
+
     /**
      * Store a newly created resource in storage.
      *

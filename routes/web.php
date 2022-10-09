@@ -131,6 +131,7 @@ Route::post('dashboard/jumlah_peserta', [DashboardController::class,'jumlah_pese
 Route::post('dashboard/jumlah_sekolah', [DashboardController::class,'jumlah_sekolah']);
 Route::post('dashboard/rata_rata_nilai', [DashboardController::class,'rata_rata_nilai']);
 Route::get('dashboard/hasil_ujian', [DashboardController::class,'hasil_ujian']);
+Route::get('dashboard/hasil_ujian_guru', [DashboardController::class,'hasil_ujian_guru']);
 Route::post('referensi/sekolahSelect2', [ReferensiSelect2Controller::class, 'select2sekolah']);
 Route::post('referensi/jenjangSelect2', [ReferensiSelect2Controller::class, 'select2jenjang']);
 Route::post('referensi/kecamatanSelect2', [ReferensiSelect2Controller::class, 'select2kecamatan']);
