@@ -155,14 +155,6 @@
                                                     <label class="form-label">Jenjang</label>
                                                     <select class="id_jenjang filter"></select>
                                                 </div>
-                                                <div class="col-md-3">
-                                                    <label class="form-label">Sekoah</label>
-                                                    <select class="id_sekolah filter"></select>
-                                                </div>
-                                                <div class="col-md-3">
-                                                    <label class="form-label">Kecamatan</label>
-                                                    <select class="id_kecamatan filter" multiple></select>
-                                                </div>
                                                 <div class="col-sm-12">
                                                     <table class="table table-bordered table-sm" id="dt-hasil">
                                                         <thead>
@@ -218,14 +210,6 @@
                                                 <div class="col-md-2">
                                                     <label class="form-label">Jenjang</label>
                                                     <select class="id_jenjang filter-guru"></select>
-                                                </div>
-                                                <div class="col-md-3">
-                                                    <label class="form-label">Sekoah</label>
-                                                    <select class="id_sekolah filter-guru"></select>
-                                                </div>
-                                                <div class="col-md-3">
-                                                    <label class="form-label">Kecamatan</label>
-                                                    <select class="id_kecamatan filter-guru" multiple></select>
                                                 </div>
                                                 <div class="col-sm-12">
                                                     <table class="table table-bordered table-sm" id="dt-hasil-guru">
@@ -284,20 +268,73 @@
                                                     <label class="form-label">Jenjang</label>
                                                     <select class="id_jenjang filter-kepsek"></select>
                                                 </div>
-                                                <div class="col-md-3">
-                                                    <label class="form-label">Sekoah</label>
-                                                    <select class="id_sekolah filter-kepsek"></select>
-                                                </div>
-                                                <div class="col-md-3">
-                                                    <label class="form-label">Kecamatan</label>
-                                                    <select class="id_kecamatan filter-kepsek" multiple></select>
-                                                </div>
+                                               
                                                 <div class="col-sm-12">
                                                     <table class="table table-bordered table-sm" id="dt-hasil-kepsek">
                                                         <thead>
                                                             <tr class="text-center">
                                                                 <th class="text-center" scope="col">No</th>
                                                                 <th class="text-center" scope="col">Nama Guru</th>
+                                                                <th class="text-center" scope="col">Nama Sekolah</th>
+                                                                <th class="text-center" scope="col">Jenjang</th>
+                                                                <th class="text-center" scope="col">Kecamatan</th>
+                                                                <th class="text-center" scope="col">Nilai Rata-Rata</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row form-group sec-nilai-rata2">
+                        <div class="col-sm-12">
+                            <div id="accordion140">
+                                <div class="card">
+                                    <div class="card-header" id="headingOne">
+                                        <h5 class="mb-0">
+                                            <button class="btn btn-link" data-toggle="collapse"
+                                                data-target="#collapse140One" aria-expanded="true"
+                                                aria-controls="collapse140One">
+                                                Hasil Ujian Rata – rata Sekolah
+                                            </button>
+                                        </h5>
+                                    </div>
+
+                                    <div id="collapse140One" class="collapse140 show" aria-labelledby="headingOne"
+                                        data-parent="#accordion140">
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    <label class="form-label">Search</label>
+                                                    <div class="input-group input-group mb-3">
+                                                        <div class="input-group-prepend">
+                                                            <span class="input-group-text" id="inputGroup-sizing-sm"><i
+                                                                    class="fal fa fa-search"></i></span>
+                                                        </div>
+                                                        <input type="search" name="hasil_ujian_rata2"
+                                                            class="form-control" placeholder="Search" />
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <label class="form-label">Jenjang</label>
+                                                    <select class="id_jenjang filter-nilai-rata2"></select>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label class="form-label">Kecamatan</label>
+                                                    <select class="id_kecamatan filter-nilai-rata2"></select>
+                                                </div>
+                                                <div class="col-sm-12">
+                                                    <table class="table table-bordered table-sm" id="dt-hasil-nilai-rata2">
+                                                        <thead>
+                                                            <tr class="text-center">
+                                                                <th class="text-center" scope="col">No</th>
                                                                 <th class="text-center" scope="col">Nama Sekolah</th>
                                                                 <th class="text-center" scope="col">Jenjang</th>
                                                                 <th class="text-center" scope="col">Kecamatan</th>

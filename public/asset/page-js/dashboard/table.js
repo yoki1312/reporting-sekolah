@@ -126,10 +126,10 @@ $(document).ready(function () {
         ajax: {
             url :  baseurl + 'dashboard/hasil_ujian_guru',
             data: function (d) {
-                d.id_kecamatan = $('.sec-guru').find('.id_kecamatan').val();
-                d.id_sekolah = $('.sec-guru').find('.id_sekolah').val();
+                d.id_kecamatan = $('.sec-kepsek').find('.id_kecamatan').val();
+                d.id_sekolah = $('.sec-kepsek').find('.id_sekolah').val();
                 d.id_jabatan = 2;
-                d.id_jenjang = $('.sec-guru').find('.id_jenjang').val();
+                d.id_jenjang = $('.sec-kepsek').find('.id_jenjang').val();
                 return d;
             }
         },
@@ -168,6 +168,60 @@ $(document).ready(function () {
 
     });
 
+    let tableRata2 = $('#dt-hasil-nilai-rata2').DataTable({
+        "autoWidth": false,
+		"responsive": false,
+		"scrollCollapse": true,
+		"processing": true,
+		"serverSide": true,
+		"displayLength": 10,
+		"paginate": true,
+		"lengthChange": true,
+		"filter": true,
+		"dom": 'lrtip',
+		"sort": true,
+		"info": true,
+        ajax: {
+            url :  baseurl + 'dashboard/hasil_ujian_rata2',
+            data: function (d) {
+                d.id_kecamatan = $('.sec-nilai-rata2').find('.id_kecamatan').val();
+                d.id_sekolah = $('.sec-nilai-rata2').find('.id_sekolah').val();
+                d.id_jabatan = $('.sec-nilai-rata2').find('.id_jabatan').val();
+                d.id_jenjang = $('.sec-nilai-rata2').find('.id_jenjang').val();
+                return d;
+            }
+        },
+        columns: [{
+                data: 'id_user',
+                orderable: false,
+                searchable: false,
+                className:'text-center',
+                render: function (data, type, row, meta) {
+                    return meta.row + meta.settings._iDisplayStart + 1;
+                }
+            },
+            {
+                data: 'nama_sekolahan',
+                className:'text-left'
+            },
+            {
+                data: 'nama_jenjang',
+                className:'text-center'
+            },
+            {
+                data: 'nama_kecamatan',
+                className:'text-center'
+            },
+            {
+                data: 'nilai_rata_rata',
+                className:'text-center'
+            },
+
+        ],
+        order: [[4, 'desc']],
+
+    });
+
     $('input[name=search-guru]').keypress(function (e) {
 		if (e.which == 13) {
 			tableGuru.search( $(this).val() ).draw();
@@ -181,6 +235,11 @@ $(document).ready(function () {
     $('input[name=search-peringkat]').keypress(function (e) {
 		if (e.which == 13) {
 			table.search( $(this).val() ).draw();
+		}
+	});
+    $('.sec-nilai-rata2').find('input[type=search]').keypress(function (e) {
+		if (e.which == 13) {
+			tableRata2.search( $(this).val() ).draw();
 		}
 	});
     $.ajaxSetup({
@@ -261,5 +320,11 @@ $(document).ready(function () {
     })
     $(document).on('change','.filter-guru', function(){
         tableGuru.ajax.reload(null,false);
+    })
+    $(document).on('change','.filter-kepsek', function(){
+        tableKepsek.ajax.reload(null,false);
+    })
+    $(document).on('change','.filter-nilai-rata2', function(){
+        tableRata2.ajax.reload(null,false);
     })
 });

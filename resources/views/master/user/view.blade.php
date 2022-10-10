@@ -54,7 +54,7 @@
                                         <th class="text-center" scope="col">Kecamatan</th>
                                         <th class="text-center" scope="col">Jenjang</th>
                                         <th class="text-center" scope="col">Jabatan</th>
-                                        <th class="text-center" scope="col">Action</th>
+                                        <!-- <th class="text-center" scope="col">Action</th> -->
                                     </tr>
                                 </thead>
                                 <tbody>

@@ -60,10 +60,10 @@ $(document).ready(function () {
                 data: 'nama_jabatan',
                 className: 'text-center',
             },
-            {
-                data: 'action',
-                className: 'text-center',
-            },
+            // {
+            //     data: 'action',
+            //     className: 'text-center',
+            // },
 
         ]
     });

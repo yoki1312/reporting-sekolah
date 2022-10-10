@@ -159,6 +159,50 @@ class DashboardController extends Controller
         return view('hasil_ujian.view');
     }
 
+    public function hasil_ujian_rata2(Request $request)
+    {
+        if (request()->ajax()) {
+            $users = SekolahModels::leftjoin('m_user_sekolah as tb','tb.id_sekolah','m_sekolahan.id_sekolahan')
+            ->leftjoin('m_user as tf','tf.id_user','tb.id_user')
+            ->leftjoin('m_kecamatan as td', 'td.id_kecamatan','m_sekolahan.id_kecamatan')
+            ->leftjoin('m_jenjang as te','te.id_jenjang','m_sekolahan.id_jenjang')
+            ->leftjoin(DB::RAW(" (SELECT sum( jumlah_benar ) nilai, id_user FROM t_nilai_ujian GROUP BY id_user ) pa"), function($join){
+                    $join->on('pa.id_user','=','tf.id_user');
+            })
+            ->select(DB::RAW('m_sekolahan.*, td.nama_kecamatan, te.nama_jenjang, sum(pa.nilai) / count( tf.id_user )  nilai_rata_rata, count( tf.id_user )'));
+           
+            if(!empty($request->id_sekolah)){
+                $users->where('m_sekolahan.id_sekolahan', $request->id_sekolah);
+            }
+            if(!empty($request->id_jenjang)){
+                $users->where('m_sekolahan.id_jenjang', $request->id_jenjang);
+            }
+
+            if(!empty($request->id_kecamatan)){
+                $id_kec = implode(",",$request->id_kecamatan);
+                $users->whereRaw("td.id_kecamatan in ($id_kec)");
+            }
+
+
+            $users->groupby('m_sekolahan.id_sekolahan');
+            $users->orderByRaw('sum(pa.nilai) / count( tf.id_user ) desc')->get();
+        
+            $users = $users->get();
+
+
+            return DataTables::of($users)
+                ->addColumn('action', function($row) {
+                    return '<a href="'. url('hasil_ujian/detail/'.$row->id_user) .'" class="btn btn-sm btn-warning"> Detail</a>';
+                })
+                ->withQuery('count', function($filteredQuery) {
+                    return $filteredQuery->count();
+                })
+                ->rawColumns(['action'])
+                ->make(true);
+        }
+        return view('hasil_ujian.view');
+    }
+
     public function hasil_ujian_guru(Request $request)
     {
         if (request()->ajax()) {
