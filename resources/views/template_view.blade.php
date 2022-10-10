@@ -123,7 +123,7 @@ License: You must have a valid license purchased only from wrapbootstrap.com (li
         <div class="page-inner">
             <!-- BEGIN Left Aside -->
             <aside class="page-sidebar">
-                <div class="page-logo">
+                <!-- <div class="page-logo">
                     <a href="#" class="page-logo-link press-scale-down d-flex align-items-center position-relative"
                         data-toggle="modal" data-target="#modal-shortcut">
                         <img src="{{ asset('asset/img/logo.png') }}" alt="SmartAdmin WebApp"
@@ -132,7 +132,7 @@ License: You must have a valid license purchased only from wrapbootstrap.com (li
                         <span class="position-absolute text-white opacity-50 small pos-top pos-right mr-2 mt-n2"></span>
                         <i class="fal fa-angle-down d-inline-block ml-1 fs-lg color-primary-300"></i>
                     </a>
-                </div>
+                </div> -->
                 <!-- BEGIN PRIMARY NAVIGATION -->
                 <nav id="js-primary-nav" class="primary-nav" role="navigation">
                     <div class="nav-filter">
@@ -151,10 +151,10 @@ License: You must have a valid license purchased only from wrapbootstrap.com (li
                         <div class="info-card-text">
                             <a href="#" class="d-flex align-items-center text-white">
                                 <span class="text-truncate text-truncate-sm d-inline-block">
-                                    Dr. Codex Lantern
+                                Dinas Pendidikan Kabupaten Gresik
                                 </span>
                             </a>
-                            <span class="d-inline-block text-truncate text-truncate-sm">Toronto, Canada</span>
+                            <span class="d-inline-block text-truncate text-truncate-sm">Bagian Tenaga Kependidikan (Tendik)</span>
                         </div>
                         <img src="{{ asset('asset/img/card-backgrounds/cover-2-lg.png') }}" class="cover" alt="cover">
                         <a href="#" onclick="return false;" class="pull-trigger-btn" data-action="toggle"
@@ -1205,7 +1205,7 @@ License: You must have a valid license purchased only from wrapbootstrap.com (li
                             </a>
                         </form>
                     </div>
-                    <div class="ml-auto d-flex">
+                    <div class="ml-auto d-flex" style="display: none !important ;">
                         <!-- activate app search icon (mobile) -->
                         <div class="hidden-sm-up">
                             <a href="#" class="header-icon" data-action="toggle" data-class="mobile-search-on"
@@ -1897,20 +1897,18 @@ License: You must have a valid license purchased only from wrapbootstrap.com (li
                 <!-- BEGIN Page Footer -->
                 <footer class="page-footer" role="contentinfo">
                     <div class="d-flex align-items-center flex-1 text-muted">
-                        <span class="hidden-md-down fw-700">2020 © SmartAdmin by&nbsp;<a
-                                href='https://www.gotbootstrap.com' class='text-primary fw-500' title='gotbootstrap.com'
-                                target='_blank'>gotbootstrap.com</a></span>
+                        <span class="hidden-md-down fw-700">2022 @ Bagian Tendik-Dinas Pendidikan Kabupaten Gresik</span>
                     </div>
                     <div>
                         <ul class="list-table m-0">
-                            <li><a href="intel_introduction.html" class="text-secondary fw-700">About</a></li>
+                            <!-- <li><a href="intel_introduction.html" class="text-secondary fw-700">About</a></li>
                             <li class="pl-3"><a href="info_app_licensing.html" class="text-secondary fw-700">License</a>
                             </li>
                             <li class="pl-3"><a href="info_app_docs.html"
                                     class="text-secondary fw-700">Documentation</a></li>
                             <li class="pl-3 fs-xl"><a href="https://wrapbootstrap.com/user/MyOrange"
                                     class="text-secondary" target="_blank"><i class="fal fa-question-circle"
-                                        aria-hidden="true"></i></a></li>
+                                        aria-hidden="true"></i></a></li> -->
                         </ul>
                     </div>
                 </footer>
@@ -2035,7 +2033,7 @@ License: You must have a valid license purchased only from wrapbootstrap.com (li
     <!-- END Page Wrapper -->
     <!-- BEGIN Quick Menu -->
     <!-- to add more items, please make sure to change the variable '$menu-items: number;' in your _page-components-shortcut.scss -->
-    <nav class="shortcut-menu d-none d-sm-block">
+    <!-- <nav class="shortcut-menu d-none d-sm-block">
         <input type="checkbox" class="menu-open" name="menu-open" id="menu_open" />
         <label for="menu_open" class="menu-open-button ">
             <span class="app-shortcut-icon d-block"></span>
@@ -2058,7 +2056,7 @@ License: You must have a valid license purchased only from wrapbootstrap.com (li
             title="Voice command">
             <i class="fal fa-microphone"></i>
         </a>
-    </nav>
+    </nav> -->
     <!-- END Quick Menu -->
     <!-- BEGIN Messenger -->
     <div class="modal fade js-modal-messenger modal-backdrop-transparent" tabindex="-1" role="dialog"
