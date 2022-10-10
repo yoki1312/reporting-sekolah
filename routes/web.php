@@ -10,7 +10,10 @@ use App\Http\Controllers\KategoriUjianController;
 use App\Http\Controllers\KecamatanController;
 use App\Http\Controllers\SekolahController;
 use App\Http\Controllers\UserController;
+use Illuminate\Contracts\Session\Session;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -146,4 +149,9 @@ Route::middleware(['auth'])->group(function () {
 });
 Route::post('login/auth', [CustomLoginController::class, 'postLogin']);
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/logout', function () {
+    Session::flush();
+    Auth::logout();
+    return redirect('/');
+})->name('logout');
 Auth::routes();
