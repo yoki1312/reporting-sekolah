@@ -1123,7 +1123,7 @@ License: You must have a valid license purchased only from wrapbootstrap.com (li
                 </nav>
                 <!-- END PRIMARY NAVIGATION -->
                 <!-- NAV FOOTER -->
-                <div class="nav-footer shadow-top">
+                <div class="nav-footer shadow-top" style="display: none ;">
                     <a href="#" onclick="return false;" data-action="toggle" data-class="nav-function-minify"
                         class="hidden-md-down">
                         <i class="ni ni-chevron-right"></i>
