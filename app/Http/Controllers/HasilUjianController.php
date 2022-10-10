@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 use App\Models\UserModels;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class HasilUjianController extends Controller
@@ -36,6 +37,10 @@ class HasilUjianController extends Controller
             if(!empty($request->id_kecamatan)){
                 $id_kec = implode(",",$request->id_kecamatan);
                 $users->whereRaw("td.id_kecamatan in ($id_kec)");
+            }
+
+            if(Auth::user()->is_login == 0){
+                $users->where('tc.npsn', Auth::user()->username);  
             }
 
 

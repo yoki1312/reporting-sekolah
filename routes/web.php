@@ -145,8 +145,8 @@ Route::middleware(['auth'])->group(function () {
     Route::post('referensi/jenjangSelect2', [ReferensiSelect2Controller::class, 'select2jenjang']);
     Route::post('referensi/kecamatanSelect2', [ReferensiSelect2Controller::class, 'select2kecamatan']);
     
-    
 });
+
 Route::post('login/auth', [CustomLoginController::class, 'postLogin']);
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/logout', function () {

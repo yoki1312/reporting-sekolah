@@ -12,7 +12,7 @@
             <div class="card">
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-md-2">
+                        <div class="col-md-3">
                             <label class="form-label">Search</label>
                             <div class="input-group input-group mb-3">
                                 <div class="input-group-prepend">
@@ -22,7 +22,7 @@
                                 <input type="search" class="form-control" placeholder="Search" />
                             </div>
                         </div>
-                        <div class="col-md-1">
+                        <div style=" <?= Auth::user()->is_login == 0 ? 'display:none' : '' ?>" class="col-md-1">
                             <label class="form-label">Jabatan</label>
                             <select class="id_jabatan filter select2">
                                 <option value="">Tampilkan Semua</option>
@@ -30,15 +30,15 @@
                                 <option value="2">Kepala Sekoah</option>
                             </select>
                         </div>
-                        <div class="col-md-1">
+                        <div style=" <?= Auth::user()->is_login == 0 ? 'display:none' : '' ?>" class="col-md-1">
                             <label class="form-label">Jenjang</label>
                             <select class="id_jenjang filter"></select>
                         </div>
-                        <div class="col-md-3">
+                        <div style=" <?= Auth::user()->is_login == 0 ? 'display:none' : '' ?>" class="col-md-3">
                             <label class="form-label">Sekoah</label>
                             <select class="id_sekolah filter"></select>
                         </div>
-                        <div class="col-md-5">
+                        <div style=" <?= Auth::user()->is_login == 0 ? 'display:none' : '' ?>" class="col-md-5">
                             <label class="form-label">Kecamatan</label>
                             <select class="id_kecamatan filter" multiple></select>
                         </div>
