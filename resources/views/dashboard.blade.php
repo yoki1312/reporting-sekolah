@@ -3,7 +3,7 @@
 <main id="js-page-content" role="main" class="page-content">
     <div class="subheader">
         <h1 class="subheader-title">
-            <i class='fal fa-info-circle'></i> Dashboard
+            <i class='fal fa-info-circle'></i> Dashboard 
         </h1>
     </div>
     <div class="row">

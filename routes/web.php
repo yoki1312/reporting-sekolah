@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CustomLoginController;
 use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HasilUjianController;
@@ -21,8 +22,10 @@ use Illuminate\Support\Facades\DB;
 |
 */
 
-Route::get('/', function () {
-    return view('dashboard');
+
+
+Route::get('dataLogin', function () {
+    return view('login');
 });
 
 Route::get('/gt', function () {
@@ -119,19 +122,28 @@ Route::get('/gt', function () {
 //         // dd($k);
 //     }
 // });
-
-Route::resource('jenjang', JenjangController::class);
-Route::resource('user', UserController::class);
-Route::resource('hasil_ujian', HasilUjianController::class);
-Route::resource('kategori_ujian', KategoriUjianController::class);
-Route::resource('kecamatan', KecamatanController::class);
-Route::resource('sekolah', SekolahController::class);
-Route::get('hasil_ujian/detail/{id_guru}', [HasilUjianController::class,'show']);
-Route::post('dashboard/jumlah_peserta', [DashboardController::class,'jumlah_peserta']);
-Route::post('dashboard/jumlah_sekolah', [DashboardController::class,'jumlah_sekolah']);
-Route::post('dashboard/rata_rata_nilai', [DashboardController::class,'rata_rata_nilai']);
-Route::get('dashboard/hasil_ujian', [DashboardController::class,'hasil_ujian']);
-Route::get('dashboard/hasil_ujian_guru', [DashboardController::class,'hasil_ujian_guru']);
-Route::post('referensi/sekolahSelect2', [ReferensiSelect2Controller::class, 'select2sekolah']);
-Route::post('referensi/jenjangSelect2', [ReferensiSelect2Controller::class, 'select2jenjang']);
-Route::post('referensi/kecamatanSelect2', [ReferensiSelect2Controller::class, 'select2kecamatan']);
+Route::middleware(['auth'])->group(function () {
+    Route::get('/', function () {
+        return view('dashboard');
+    });
+    Route::resource('jenjang', JenjangController::class);
+    Route::resource('user', UserController::class);
+    Route::resource('hasil_ujian', HasilUjianController::class);
+    Route::resource('kategori_ujian', KategoriUjianController::class);
+    Route::resource('kecamatan', KecamatanController::class);
+    Route::resource('sekolah', SekolahController::class);
+    Route::get('hasil_ujian/detail/{id_guru}', [HasilUjianController::class,'show']);
+    Route::post('dashboard/jumlah_peserta', [DashboardController::class,'jumlah_peserta']);
+    Route::post('dashboard/jumlah_sekolah', [DashboardController::class,'jumlah_sekolah']);
+    Route::post('dashboard/rata_rata_nilai', [DashboardController::class,'rata_rata_nilai']);
+    Route::get('dashboard/hasil_ujian', [DashboardController::class,'hasil_ujian']);
+    Route::get('dashboard/hasil_ujian_guru', [DashboardController::class,'hasil_ujian_guru']);
+    Route::post('referensi/sekolahSelect2', [ReferensiSelect2Controller::class, 'select2sekolah']);
+    Route::post('referensi/jenjangSelect2', [ReferensiSelect2Controller::class, 'select2jenjang']);
+    Route::post('referensi/kecamatanSelect2', [ReferensiSelect2Controller::class, 'select2kecamatan']);
+    
+    
+});
+Route::post('login/auth', [CustomLoginController::class, 'postLogin']);
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Auth::routes();
