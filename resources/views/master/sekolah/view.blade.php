@@ -36,6 +36,7 @@
                                     <tr class="text-center">
                                         <th class="text-center" scope="col">No</th>
                                         <th class="text-center" scope="col">Nama Sekolah</th>
+                                        <th class="text-center" scope="col">NPSN</th>
                                         <th class="text-center" scope="col">Nama Jenjang</th>
                                         <th class="text-center" scope="col">Kecamatan</th>
                                     </tr>
