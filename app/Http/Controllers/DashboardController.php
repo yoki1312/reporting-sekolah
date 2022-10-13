@@ -179,8 +179,12 @@ class DashboardController extends Controller
             }
 
             if(!empty($request->id_kecamatan)){
-                $id_kec = implode(",",$request->id_kecamatan);
-                $users->whereRaw("td.id_kecamatan in ($id_kec)");
+                if(is_array($request->id_kecamatan)){
+                    $id_kec = implode(",",$request->id_kecamatan);
+                    $users->whereRaw("td.id_kecamatan in ($id_kec)");
+                }else{
+                    $users->where("td.id_kecamatan" ,$request->id_kecamatan);
+                }
             }
 
 
