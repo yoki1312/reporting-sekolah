@@ -2880,10 +2880,10 @@ License: You must have a valid license purchased only from wrapbootstrap.com (li
 						+ waves.js (extension)
 						+ smartpanels.js (extension)
 						+ src/../jquery-snippets.js (core) -->
-    <script src="{{ asset('asset/js/vendors.bundle.js') }}"></script>
-    <script src="{{ asset('asset/js/app.bundle.js') }}"></script>
-    <script src="{{ asset('asset/js/datagrid/datatables/datatables.bundle.js') }}"></script>
-    <script src="{{ asset('asset/js/datagrid/datatables/datatables.bundle.js') }}"></script>
+    <script src="{{ asset('asset/js/vendors.bundle.js?id=1234') }}"></script>
+    <script src="{{ asset('asset/js/app.bundle.js?id=1234') }}"></script>
+    <script src="{{ asset('asset/js/datagrid/datatables/datatables.bundle.js?id=1234') }}"></script>
+    <script src="{{ asset('asset/js/datagrid/datatables/datatables.bundle.js?id=1234') }}"></script>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script src="{{ asset('asset/js/formplugins/select2/select2.bundle.js') }}"></script>
 
