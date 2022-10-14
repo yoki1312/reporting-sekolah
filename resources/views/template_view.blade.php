@@ -2896,7 +2896,7 @@ License: You must have a valid license purchased only from wrapbootstrap.com (li
           $action = substr($getController, strpos($getController, "@") + 1);    
           $conttroller = str_replace("controller", "" , strtolower(strtok($getController, "@")) ); 
     ?>
-    <script src="<?= asset('asset/page-js/'. $conttroller.'/'.$action .'.js') ?>"> </script>
+    <script src="<?= asset('asset/page-js/'. $conttroller.'/'.$action .'.js?id='). rand(10,90) ?>"> </script>
     <?php endif; ?>
     @yield('chart-js')
 </body>

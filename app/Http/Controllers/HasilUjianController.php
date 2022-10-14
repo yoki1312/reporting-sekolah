@@ -23,7 +23,8 @@ class HasilUjianController extends Controller
             ->leftjoin('m_user_sekolah as tb','tb.id_user','m_user.id_user')
             ->leftjoin('m_sekolahan as tc', 'tc.id_sekolahan','tb.id_sekolah')
             ->leftjoin('m_kecamatan as td', 'td.id_kecamatan','tc.id_kecamatan')
-            ->select(DB::RAW('sum(ta.jumlah_benar) as total_nilai,tc.id_sekolahan, td.id_kecamatan, m_user.*, tc.nama_sekolahan, td.nama_kecamatan, tc.id_jenjang'));
+            ->leftjoin('m_jenjang as te','te.id_jenjang','tc.id_jenjang')
+            ->select(DB::RAW('sum(ta.jumlah_benar) as total_nilai,tc.id_sekolahan, td.id_kecamatan, m_user.*, tc.nama_sekolahan, td.nama_kecamatan, tc.id_jenjang, te.nama_jenjang'));
            
             if(!empty($request->id_sekolah)){
                 $users->where('tc.id_sekolahan', $request->id_sekolah);
