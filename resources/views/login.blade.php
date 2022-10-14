@@ -146,7 +146,7 @@ License: You must have a valid license purchased only from wrapbootstrap.com (li
                                     <h2 class="fs-xxl fw-500 mt-4 text-white">
                                     Pemerintahan Kabupaten Gresik - Dinas Pendidikan <br><small>Jl Arif rahmat Hakim No 22 Gresik.Telp. 031-3981315</small>
                                     <small class="h3 fw-300 mt-3 mb-5 text-white opacity-60">
-                                            <h2>Pengumuman Hasil Ujian Mutu Gutu Tahun 2022 (UMG 2022) </h2>
+                                            <h2>Pengumuman Hasil Ujian Mutu Guru Tahun 2022 (UMG 2022) </h2>
                                             <!-- Presenting you with the next level of innovative UX design and engineering. The most modular toolkit available with over 600+ layout permutations. Experience the simplicity of SmartAdmin, everywhere you go! -->
                                         </small>
                                     </h2>
