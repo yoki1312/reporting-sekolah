@@ -155,7 +155,7 @@
 </main>
 @endsection
 @section('chart-js')
-<script src="{{ asset('asset/page-js/dashboard/chart.js?id=998989') }}"></script>
+<script src="{{ asset('asset/page-js/dashboard/chart.js?id=').rand(90,100) }}"></script>
 <!-- <script src="{{ asset('asset/page-js/dashboard/table.js') }}"></script> -->
 <script>
     $(document).ready(function () {

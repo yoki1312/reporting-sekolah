@@ -279,7 +279,7 @@
 @endsection
 @section('chart-js')
 <!-- <script src="{{ asset('asset/page-js/dashboard/chart.js') }}"></script> -->
-<script src="{{ asset('asset/page-js/dashboard/table.js?id=12312') }}"></script>
+<script src="{{ asset('asset/page-js/dashboard/table.js?id=') .rand(90,100) }}"></script>
 <script>
     $(document).ready(function () {
         // $('.btn-link').trigger('click')
