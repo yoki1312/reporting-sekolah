@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AbsensiController;
 use App\Http\Controllers\CustomLoginController;
 use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
@@ -129,14 +130,22 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/', function () {
         return view('dashboard');
     });
+    Route::get('/statistik', function () {
+        // printJSON('statistik');
+        return view('statistik');
+    });
     Route::resource('jenjang', JenjangController::class);
     Route::resource('user', UserController::class);
+    Route::resource('absensi_kehadiran', AbsensiController::class);
     Route::resource('hasil_ujian', HasilUjianController::class);
+    Route::post('exportPdf/hasil_ujian', [HasilUjianController::class,'hasil_ujianExportPdf']);
     Route::resource('kategori_ujian', KategoriUjianController::class);
     Route::resource('kecamatan', KecamatanController::class);
     Route::resource('sekolah', SekolahController::class);
     Route::get('hasil_ujian/detail/{id_guru}', [HasilUjianController::class,'show']);
+    Route::get('hasil_ujian_pdf_detail/detail/{id_guru}', [HasilUjianController::class,'hasil_ujian_pdf_detail']);
     Route::post('dashboard/jumlah_peserta', [DashboardController::class,'jumlah_peserta']);
+    Route::post('dashboard/jumlah_peserta_absen', [DashboardController::class,'jumlah_peserta_absen']);
     Route::post('dashboard/jumlah_sekolah', [DashboardController::class,'jumlah_sekolah']);
     Route::post('dashboard/rata_rata_nilai', [DashboardController::class,'rata_rata_nilai']);
     Route::get('dashboard/hasil_ujian', [DashboardController::class,'hasil_ujian']);
@@ -145,6 +154,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('referensi/sekolahSelect2', [ReferensiSelect2Controller::class, 'select2sekolah']);
     Route::post('referensi/jenjangSelect2', [ReferensiSelect2Controller::class, 'select2jenjang']);
     Route::post('referensi/kecamatanSelect2', [ReferensiSelect2Controller::class, 'select2kecamatan']);
+    Route::post('referensi/bidangSelect2', [ReferensiSelect2Controller::class, 'select2bidang']);
     
 });
 

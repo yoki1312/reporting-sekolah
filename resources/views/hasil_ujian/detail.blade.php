@@ -76,6 +76,7 @@
                     </div>
                     <div class="col-sm-12 form-group">
                         <a href="{{ url('hasil_ujian') }}" class="btn btn-sm btn-info"> <i class='fal fa-chevron-circle-left'></i> Kembali</a>
+                        <a href="{{ url('hasil_ujian_pdf_detail/detail/'.$users->id_user) }}" target="_blank" class="btn btn-sm btn-success"> <i class='fal fa-file'></i> Export to PDF</a>
                     </div>
                 </div>
             </div>

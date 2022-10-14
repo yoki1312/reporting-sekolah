@@ -12,7 +12,7 @@ License: You must have a valid license purchased only from wrapbootstrap.com (li
 <head>
     <meta charset="utf-8">
     <title>
-        Introduction - Application Intel - SmartAdmin v4.5.1
+        UMG 2022
     </title>
     <meta name="description" content="Introduction">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -75,7 +75,7 @@ License: You must have a valid license purchased only from wrapbootstrap.com (li
              * Load from localstorage
              **/
             themeSettings = (localStorage.getItem('themeSettings')) ? JSON.parse(localStorage.getItem(
-            'themeSettings')) : {},
+                'themeSettings')) : {},
             themeURL = themeSettings.themeURL || '',
             themeOptions = themeSettings.themeOptions || '';
         /** 
@@ -151,10 +151,11 @@ License: You must have a valid license purchased only from wrapbootstrap.com (li
                         <div class="info-card-text">
                             <a href="#" class="d-flex align-items-center text-white">
                                 <span class="text-truncate text-truncate-sm d-inline-block">
-                                Dinas Pendidikan Kabupaten Gresik
+                                    Dinas Pendidikan Kabupaten Gresik
                                 </span>
                             </a>
-                            <span class="d-inline-block text-truncate text-truncate-sm">Bagian Tenaga Kependidikan (Tendik)</span>
+                            <span class="d-inline-block text-truncate text-truncate-sm">Bagian Tenaga Kependidikan
+                                (Tendik)</span>
                         </div>
                         <img src="{{ asset('asset/img/card-backgrounds/cover-2-lg.png') }}" class="cover" alt="cover">
                         <a href="#" onclick="return false;" class="pull-trigger-btn" data-action="toggle"
@@ -170,15 +171,36 @@ License: You must have a valid license purchased only from wrapbootstrap.com (li
                             </a>
                         </li>
                         <li>
-                            <a href="{{ url('hasil_ujian') }}" title="Hasil Ujian" data-filter-tags="hasil ujian">
-                                <i class="fal fa-edit"></i>
-                                <span class="nav-link-text" data-i18n="nav.hasil_ujian">Hasil Ujian</span>
+                            <a href="{{ url('/statistik') }}" title="Hasil Ujian" data-filter-tags="hasil ujian">
+                                <i class="fal fa-chart-bar"></i>
+                                <span class="nav-link-text" data-i18n="nav.hasil_ujian">Statistik</span>
                             </a>
                         </li>
-                        <li style=" <?= Auth::user()->is_login == 0 ? 'display:none' : '' ?>"" >
+                       
+                        <li>
                             <a href="#" title="Form Stuff" data-filter-tags="form stuff">
-                                <i class="fal fa-th-list"></i>
-                                <span class="nav-link-text" data-i18n="nav.form_stuff">Master</span>
+                                <i class="fal fa-edit"></i>
+                                <span class="nav-link-text" data-i18n="nav.form_stuff">Laporan</span>
+                            </a>
+                            <ul>
+                                <li>
+                                    <a href="{{ url('hasil_ujian') }}" title="Hasil Ujian"
+                                        data-filter-tags="hasil ujian">
+                                        <span class="nav-link-text" data-i18n="nav.hasil_ujian">Hasil Ujian</span>
+                                    </a>
+                                </li>
+                                <li style=" <?= Auth::user()->is_login == 0 ? 'display:none' : '' ?>">
+                            <a  href="{{ url('absensi_kehadiran') }}" title="Absensi Kehadiran"
+                                data-filter-tags="Absensi Kehadiran">
+                                <span class="nav-link-text" data-i18n="nav.absensi_kehadiran">Absensi Kehadiran</span>
+                            </a>
+                        </li>
+                            </ul>
+                        </li>
+                        <li style=" <?= Auth::user()->is_login == 0 ? 'display:none' : '' ?>" >
+                            <a href=" #" title="Form Stuff" data-filter-tags="form stuff">
+                            <i class="fal fa-th-list"></i>
+                            <span class="nav-link-text" data-i18n="nav.form_stuff">Master</span>
                             </a>
                             <ul>
                                 <li>
@@ -218,8 +240,7 @@ License: You must have a valid license purchased only from wrapbootstrap.com (li
                             </ul>
                         </li>
                         <li>
-                            <a href="{{ route('logout') }}"
-                                       onclick="event.preventDefault();
+                            <a href="{{ route('logout') }}" onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
                                 <i class="fal fa-window"></i>
                                 <span class="nav-link-text" data-i18n="nav.hasil_ujian">Logout</span>
@@ -227,8 +248,8 @@ License: You must have a valid license purchased only from wrapbootstrap.com (li
                         </li>
                     </ul>
                     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                        @csrf
-                                    </form>
+                        @csrf
+                    </form>
                     <!-- <ul id="js-nav-menu" class="nav-menu">
                             <li class="active open">
                                 <a href="#" title="Application Intel" data-filter-tags="application intel">
@@ -1897,7 +1918,8 @@ License: You must have a valid license purchased only from wrapbootstrap.com (li
                 <!-- BEGIN Page Footer -->
                 <footer class="page-footer" role="contentinfo">
                     <div class="d-flex align-items-center flex-1 text-muted">
-                        <span class="hidden-md-down fw-700">2022 @ Bagian Tendik-Dinas Pendidikan Kabupaten Gresik</span>
+                        <span class="hidden-md-down fw-700">2022 @ Bagian Tendik-Dinas Pendidikan Kabupaten
+                            Gresik</span>
                     </div>
                     <div>
                         <ul class="list-table m-0">

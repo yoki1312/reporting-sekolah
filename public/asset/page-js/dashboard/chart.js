@@ -19,6 +19,8 @@ function drawVisualization() {
         success: function (result) {
             let data = google.visualization.arrayToDataTable(result);
             var options = {
+                colors: ['#006400', '#8B0000', '#1E90FF'
+                ],
                 vAxis: {
                     title: 'Jumlah Peserta'
                 },
@@ -34,6 +36,47 @@ function drawVisualization() {
             };
 
             var chart = new google.visualization.ComboChart(document.getElementById('chart_div'));
+            chart.draw(data, options);
+        }
+
+    });
+    // Some raw data (not necessarily accurate)
+
+
+
+}
+google.charts.load('current', {
+    'packages': ['corechart']
+});
+google.charts.setOnLoadCallback(drawVisualizationAbsen);
+
+function drawVisualizationAbsen() {
+    $.ajax({
+        url: baseurl + 'dashboard/jumlah_peserta_absen',
+        type: "POST",
+        async: true,
+        data: {
+            "tahun": $('.tahun_filter').val(),
+        },
+        success: function (result) {
+            let data = google.visualization.arrayToDataTable(result);
+            var options = {
+                colors: ['#006400', '#8B0000', '#1E90FF'],
+                vAxis: {
+                    title: 'Jumlah Peserta'
+                },
+                hAxis: {
+                    title: 'Kecamatan'
+                },
+                seriesType: 'bars',
+                series: {
+                    5: {
+                        type: 'line'
+                    }
+                }
+            };
+
+            var chart = new google.visualization.ComboChart(document.getElementById('chart_div_absen'));
             chart.draw(data, options);
         }
 
@@ -60,6 +103,7 @@ function drawVisualization1() {
         success: function (result) {
             let data = google.visualization.arrayToDataTable(result);
             var options = {
+                colors: ['#006400', '#8B0000', '#1E90FF'],
                 vAxis: {
                     title: 'Jumlah Sekolah'
                 },
@@ -95,6 +139,17 @@ $(document).ready(function () {
             'packages': ['corechart']
         });
         google.charts.setOnLoadCallback(drawVisualization1);
+        console.log(id_jenjang);
+        let collorBar = '';
+        if(id_jenjang == 1){
+            collorBar = '#006400';
+        }
+        if(id_jenjang == 2){
+            collorBar = '#8B0000';
+        }
+        if(id_jenjang == 3){
+            collorBar = '#1E90FF';
+        }
 
         function drawVisualization1() {
             $.ajax({
@@ -108,9 +163,7 @@ $(document).ready(function () {
                 success: function (result) {
                     let data = google.visualization.arrayToDataTable(result);
                     var options = {
-                        colors: ['#e2431e', '#d3362d', '#e7711b',
-                            '#e49307', '#e49307', '#b9c246'
-                        ],
+                        colors: [collorBar],
                         vAxis: {
                             title: 'Nilai Rata-rata ' + jenjang
                         },
@@ -142,7 +195,17 @@ $(document).ready(function () {
         let index = $(this).attr('data-index');
         let jenjang = $(this).attr('data-jenjang');
         let id_jenjang = $(this).attr('data-id-je');
-
+        
+        let  collorBar = '';
+        if(id_jenjang == 1){
+            collorBar = '#006400';
+        }
+        if(id_jenjang == 2){
+            collorBar = '#8B0000';
+        }
+        if(id_jenjang == 3){
+            collorBar = '#1E90FF';
+        }
         google.charts.load('current', {
             'packages': ['corechart']
         });
@@ -160,6 +223,7 @@ $(document).ready(function () {
                 success: function (result) {
                     let data = google.visualization.arrayToDataTable(result);
                     var options = {
+                        colors: [collorBar],
                         vAxis: {
                             title: 'Nilai Rata-rata ' + jenjang
                         },

@@ -29,4 +29,16 @@ class ReferensiSelect2Controller extends Controller
         }
         return DB::select($sql);
     }
+
+    public function select2bidang(Request $request){
+        $sql = "select * from m_kategori_ujian where 1 =1";
+        if(isset($request->id_jabatan)){
+            $sql .= " and id_jabatan = $request->id_jabatan ";
+        }
+        if(isset($request->q)){
+            $sql .= " and nama_bidang LIKE '%$request->q%' ";
+        }
+        // printJSON($sql);
+        return DB::select($sql);
+    }
 }

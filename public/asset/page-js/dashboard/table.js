@@ -18,6 +18,7 @@ $(document).ready(function () {
             data: function (d) {
                 d.id_kecamatan = $('.id_kecamatan').val();
                 d.id_sekolah = $('.id_sekolah').val();
+                d.id_kategori_ujian = $('.id_bidang_all').val();
                 d.id_jabatan = $('.id_jabatan').val();
                 d.id_jenjang = $('.id_jenjang').val();
                 return d;
@@ -72,6 +73,7 @@ $(document).ready(function () {
                 d.id_kecamatan = $('.sec-guru').find('.id_kecamatan').val();
                 d.id_sekolah = $('.sec-guru').find('.id_sekolah').val();
                 d.id_jabatan = 1;
+                d.id_kategori_ujian =  $('.sec-guru').find('.id_bidang_guru').val();
                 d.id_jenjang = $('.sec-guru').find('.id_jenjang').val();
                 return d;
             }
@@ -129,6 +131,7 @@ $(document).ready(function () {
                 d.id_kecamatan = $('.sec-kepsek').find('.id_kecamatan').val();
                 d.id_sekolah = $('.sec-kepsek').find('.id_sekolah').val();
                 d.id_jabatan = 2;
+                d.id_kategori_ujian = $('.sec-kepsek').find('.id_bidang_kepsek').val();
                 d.id_jenjang = $('.sec-kepsek').find('.id_jenjang').val();
                 return d;
             }
@@ -188,6 +191,7 @@ $(document).ready(function () {
                 d.id_sekolah = $('.sec-nilai-rata2').find('.id_sekolah').val();
                 d.id_jabatan = $('.sec-nilai-rata2').find('.id_jabatan').val();
                 d.id_jenjang = $('.sec-nilai-rata2').find('.id_jenjang').val();
+                d.id_kategori_ujian = $('.sec-nilai-rata2').find('.id_bidang_all').val();
                 return d;
             }
         },
@@ -305,6 +309,80 @@ $(document).ready(function () {
 					results: data.map(function (item) {
 						item.id = item.id_sekolahan;
 						item.text = item.nama_sekolahan;
+						return item;
+					})
+				};
+			},
+		},
+		escapeMarkup: function (m) {
+			return m;
+		}
+	});
+
+    $('.id_bidang_guru').select2({
+		placeholder: 'Pilih Bidang',
+		allowClear: true,
+		ajax: {
+			dataType: "json",
+			method: 'POST',
+            data : {
+                id_jabatan : 1
+            },
+			url: baseurl + "referensi/bidangSelect2",
+			delay: 300,
+			processResults: function (data) {
+				return {
+					results: data.map(function (item) {
+						item.id = item.id_kategori_ujian;
+						item.text = item.nama_kategori_ujian;
+						return item;
+					})
+				};
+			},
+		},
+		escapeMarkup: function (m) {
+			return m;
+		}
+	});
+
+    $('.id_bidang_kepsek').select2({
+		placeholder: 'Pilih Bidang',
+		allowClear: true,
+		ajax: {
+			dataType: "json",
+			method: 'POST',
+            data : {
+                id_jabatan : 2
+            },
+			url: baseurl + "referensi/bidangSelect2",
+			delay: 300,
+			processResults: function (data) {
+				return {
+					results: data.map(function (item) {
+						item.id = item.id_kategori_ujian;
+						item.text = item.nama_kategori_ujian;
+						return item;
+					})
+				};
+			},
+		},
+		escapeMarkup: function (m) {
+			return m;
+		}
+	});
+    $('.id_bidang_all').select2({
+		placeholder: 'Pilih Bidang',
+		allowClear: true,
+		ajax: {
+			dataType: "json",
+			method: 'POST',
+			url: baseurl + "referensi/bidangSelect2",
+			delay: 300,
+			processResults: function (data) {
+				return {
+					results: data.map(function (item) {
+						item.id = item.id_kategori_ujian;
+						item.text = item.nama_kategori_ujian;
 						return item;
 					})
 				};

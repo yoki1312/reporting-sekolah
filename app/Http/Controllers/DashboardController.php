@@ -20,7 +20,8 @@ class DashboardController extends Controller
     public function jumlah_peserta()
     {
         $data = DB::table('m_user as ta')
-        ->join('m_sekolahan as tc', 'tc.id_sekolahan', 'ta.id_sekolah')
+        ->join('m_user_sekolah as tx', 'tx.id_user', 'ta.id_user')
+        ->join('m_sekolahan as tc', 'tc.id_sekolahan', 'tx.id_sekolah')
         ->join('m_kecamatan as td', 'td.id_kecamatan','tc.id_kecamatan')
         ->join('m_jenjang as te', 'te.id_jenjang','tc.id_jenjang')
         ->select(DB::RAW('count(ta.id_user) as total_peserta,te.nama_jenjang, tc.id_jenjang, td.id_kecamatan, td.nama_kecamatan'))
@@ -35,6 +36,34 @@ class DashboardController extends Controller
             $tk = $val[1][0]->total_peserta;
             $sd = $val[2][0]->total_peserta;
             $smp = $val[3][0]->total_peserta;
+            $ar[] = array($nama_kecamatan,floatval($tk), floatval($tk),floatval($sd), floatval($sd),floatval($smp), floatval($smp));
+        }
+        // printJSON($ar);
+        // // dd($data);
+        return $ar;
+    }
+    public function jumlah_peserta_absen()
+    {
+        $data = DB::table('m_kecamatan as ta')
+        ->leftjoin('m_sekolahan as tc', 'tc.id_kecamatan', 'ta.id_kecamatan')
+        ->leftjoin('m_jenjang as te', 'te.id_jenjang','tc.id_jenjang')
+        ->leftjoin('m_user_sekolah as tx', 'tx.id_sekolah', 'tc.id_sekolahan')
+        ->leftjoin(DB::RAW(" (SELECT * from t_absen where id_status = 0 ) td"), function($join){
+                $join->on('td.id_user','=','tx.id_user');
+        })
+        ->select(DB::RAW('count(td.id_user) as total_peserta,te.nama_jenjang, te.id_jenjang, ta.id_kecamatan, ta.nama_kecamatan'))
+        ->groupby('ta.id_kecamatan','te.id_jenjang')
+        ->get();
+
+        $data = collect($data)->groupBy(['id_kecamatan','id_jenjang'])->toArray();
+        $ar = array();
+        $ar[] = array('Kecamatan','TK',array( 'type' => 'string', 'role' => 'annotation' ),'SD',array( 'type' => 'string', 'role' => 'annotation' ),'SMP',array( 'type' => 'string', 'role' => 'annotation' )); 
+        foreach($data as $k => $val){
+            // printJSON($val[1][0]->nama_kecamatan);
+            $nama_kecamatan = isset($val[1][0]->nama_kecamatan) ? $val[1][0]->nama_kecamatan : '';
+            $tk = isset($val[1][0]->total_peserta) ? $val[1][0]->total_peserta : 0;
+            $sd = isset($val[2][0]->total_peserta) ? $val[2][0]->total_peserta : 0;
+            $smp = isset($val[3][0]->total_peserta) ? $val[3][0]->total_peserta : 0;
             $ar[] = array($nama_kecamatan,floatval($tk), floatval($tk),floatval($sd), floatval($sd),floatval($smp), floatval($smp));
         }
         // printJSON($ar);
@@ -118,18 +147,24 @@ class DashboardController extends Controller
     public function hasil_ujian(Request $request)
     {
         if (request()->ajax()) {
+            $kategori_ujian = '';
+            if(!empty($request->id_kategori_ujian)){
+               $kategori_ujian = " and id_kategori_ujian = $request->id_kategori_ujian";
+            }
+
             $users = SekolahModels::leftjoin('m_user_sekolah as tb','tb.id_sekolah','m_sekolahan.id_sekolahan')
             ->leftjoin('m_user as tf','tf.id_user','tb.id_user')
             ->leftjoin('m_kecamatan as td', 'td.id_kecamatan','m_sekolahan.id_kecamatan')
             ->leftjoin('m_jenjang as te','te.id_jenjang','m_sekolahan.id_jenjang')
-            ->leftjoin(DB::RAW(" (SELECT sum( jumlah_benar ) nilai, id_user FROM t_nilai_ujian GROUP BY id_user ) pa"), function($join){
+            ->leftjoin(DB::RAW(" (SELECT sum( jumlah_benar ) nilai, id_user FROM t_nilai_ujian where 1 = 1 $kategori_ujian GROUP BY id_user ) pa"), function($join){
                     $join->on('pa.id_user','=','tf.id_user');
             })
-            ->select(DB::RAW('m_sekolahan.*, td.nama_kecamatan, te.nama_jenjang, sum(pa.nilai) / count( tf.id_user )  nilai_rata_rata, count( tf.id_user )'));
+            ->select(DB::RAW('m_sekolahan.*, td.nama_kecamatan, te.nama_jenjang, round(sum(pa.nilai) / count( tf.id_user ),2)  nilai_rata_rata, count( tf.id_user )'));
            
             if(!empty($request->id_sekolah)){
                 $users->where('m_sekolahan.id_sekolahan', $request->id_sekolah);
             }
+           
             if(!empty($request->id_jenjang)){
                 $users->where('m_sekolahan.id_jenjang', $request->id_jenjang);
             }
@@ -162,14 +197,18 @@ class DashboardController extends Controller
     public function hasil_ujian_rata2(Request $request)
     {
         if (request()->ajax()) {
+            $kategori_ujian = '';
+            if(!empty($request->id_kategori_ujian)){
+               $kategori_ujian = " and id_kategori_ujian = $request->id_kategori_ujian";
+            }
             $users = SekolahModels::leftjoin('m_user_sekolah as tb','tb.id_sekolah','m_sekolahan.id_sekolahan')
             ->leftjoin('m_user as tf','tf.id_user','tb.id_user')
             ->leftjoin('m_kecamatan as td', 'td.id_kecamatan','m_sekolahan.id_kecamatan')
             ->leftjoin('m_jenjang as te','te.id_jenjang','m_sekolahan.id_jenjang')
-            ->leftjoin(DB::RAW(" (SELECT sum( jumlah_benar ) nilai, id_user FROM t_nilai_ujian GROUP BY id_user ) pa"), function($join){
+            ->leftjoin(DB::RAW(" (SELECT sum( jumlah_benar ) nilai, id_user FROM t_nilai_ujian where 1 = 1 $kategori_ujian GROUP BY id_user ) pa"), function($join){
                     $join->on('pa.id_user','=','tf.id_user');
             })
-            ->select(DB::RAW('m_sekolahan.*, td.nama_kecamatan, te.nama_jenjang, sum(pa.nilai) / count( tf.id_user )  nilai_rata_rata, count( tf.id_user )'));
+            ->select(DB::RAW('m_sekolahan.*, td.nama_kecamatan, te.nama_jenjang, ROUND(sum(pa.nilai) / count( tf.id_user ),2)  nilai_rata_rata, count( tf.id_user )'));
            
             if(!empty($request->id_sekolah)){
                 $users->where('m_sekolahan.id_sekolahan', $request->id_sekolah);
@@ -218,11 +257,14 @@ class DashboardController extends Controller
             ->leftjoin(DB::RAW( "(SELECT count(id_user) peserta, id_sekolah from m_user_sekolah where id_jabatan = $request->id_jabatan GROUP BY id_sekolah) pa" ), function($join){
                 $join->on('pa.id_sekolah','=','tc.id_sekolahan');
             })
-            ->select(DB::RAW("m_user.* , tc.nama_sekolahan , td.nama_jenjang, te.nama_kecamatan, sum(ta.jumlah_benar) / pa.peserta as nilai_rata_rata "));
+            ->select(DB::RAW("m_user.* , tc.nama_sekolahan , td.nama_jenjang, te.nama_kecamatan, ROUND(sum(ta.jumlah_benar) / pa.peserta,2) as nilai_rata_rata "));
 
             $users->where('tb.id_jabatan', $request->id_jabatan);
             if(!empty($request->id_sekolah)){
                 $users->where('tc.id_sekolahan', $request->id_sekolah);
+            }
+            if(!empty($request->id_kategori_ujian)){
+                $users->where('ta.id_kategori_ujian', $request->id_kategori_ujian);
             }
             if(!empty($request->id_jenjang)){
                 $users->where('tc.id_jenjang', $request->id_jenjang);
@@ -235,7 +277,7 @@ class DashboardController extends Controller
 
 
             $users->groupby('m_user.id_user');
-            $users->orderByRaw('sum(ta.jumlah_benar) / pa.peserta desc')->limit('10')->get();
+            $users->orderByRaw('ROUND(sum(ta.jumlah_benar) / pa.peserta,0) desc')->limit('10')->get();
         
             $users = $users->get();
 

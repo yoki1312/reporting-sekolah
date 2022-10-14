@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\UserModels;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Facades\DataTables;
+// DB
 
 class UserController extends Controller
 {
@@ -21,7 +23,8 @@ class UserController extends Controller
             ->leftjoin('m_jabatan as tc','tc.id_jabatan','ta.id_jabatan')
             ->leftjoin('m_kecamatan as td','td.id_kecamatan','tb.id_kecamatan')
             ->leftjoin('m_jenjang as te', 'te.id_jenjang','tb.id_jenjang' )
-            ->select('m_user.*','tb.nama_sekolahan','tc.nama_jabatan','td.nama_kecamatan','te.nama_jenjang');
+            ->leftjoin('t_absen as tf', 'tf.id_user','m_user.id_user')
+            ->select(DB::RAW('m_user.*,tb.nama_sekolahan,tc.nama_jabatan,td.nama_kecamatan,te.nama_jenjang, IF(tf.id_status = 1,"HADIR", "TIDAK HADIR") status_absen, tf.keterangan'));
             if(!empty($request->id_sekolah)){
                 $users->where('tb.id_sekolahan', $request->id_sekolah);
             }
@@ -31,6 +34,10 @@ class UserController extends Controller
             }
             if(!empty($request->id_jabatan)){
                 $users->where('ta.id_jabatan', $request->id_jabatan);
+            }
+            if(!empty($request->status_hadir)){
+                if($request->status_hadir == 2) $request->status_hadir = '0';
+                $users->where('tf.id_status', $request->status_hadir);
             }
 
             if(!empty($request->id_kecamatan)){

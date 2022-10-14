@@ -1,80 +1,90 @@
 $(document).ready(function () {
-	$('.id_jabatan').select2({})
-   let table = $('#dt-hasil').DataTable({
+    let table = $('#dt-hasil').DataTable({
         "autoWidth": false,
-		"responsive": false,
-		"scrollCollapse": true,
-		"processing": true,
-		"serverSide": true,
-		"displayLength": 15,
-		"paginate": true,
-		"lengthChange": false,
-		"filter": true,
-		"dom": 'lrtip',
-		"sort": true,
-		"info": true,
+        "responsive": false,
+        "scrollCollapse": true,
+        "processing": true,
+        "serverSide": true,
+        "displayLength": 15,
+        "paginate": true,
+        "lengthChange": false,
+        "filter": true,
+        "dom": 'lrtip',
+        "sort": true,
+        "dom": 'lrtip',
+        "info": true,
         ajax: {
-            url :  baseurl + 'hasil_ujian',
+            url: baseurl + 'user',
             data: function (d) {
                 d.id_kecamatan = $('.id_kecamatan').val();
                 d.id_sekolah = $('.id_sekolah').val();
-                d.id_jabatan = $('.id_jabatan').val();
                 d.id_jenjang = $('.id_jenjang').val();
+                d.id_jabatan = $('.id_jabatan').val();
+                d.status_hadir = $('.status_hadir').val();
                 return d;
             }
         },
         columns: [{
-                data: 'id_user',
+                data: 'id_sekolahan',
                 orderable: false,
                 searchable: false,
-                className:'text-center',
+                className: 'text-center',
                 render: function (data, type, row, meta) {
                     return meta.row + meta.settings._iDisplayStart + 1;
                 }
             },
             {
                 data: 'nama_user',
-                className:'text-left'
+                className: 'text-left',
             },
             {
                 data: 'nip',
-                className:'text-center'
+                className: 'text-center',
+            },
+            {
+                data: 'nuptk',
+                className: 'text-center',
             },
             {
                 data: 'nama_sekolahan',
-                className:'text-left'
-            },
-            {
-                data: 'nama_jenjang',
-                className:'text-center'
+                className: 'text-left',
             },
             {
                 data: 'nama_kecamatan',
-                className:'text-center'
+                className: 'text-center',
             },
             {
-                data: 'total_nilai',
-                className:'text-center'
+                data: 'nama_jenjang',
+                className: 'text-center',
             },
             {
-                data: 'action',
-                className:'text-center'
+                data: 'nama_jabatan',
+                className: 'text-center',
+            },
+            {
+                data: 'status_absen',
+                className: 'text-center',
+                render : function(meta,data,row){
+                    return row.status_absen + (row.keterangan != '' ? ' ( '+ row.keterangan +' )' : '');
+                }
             },
 
         ]
     });
 
     $('input[type=search]').keypress(function (e) {
-		if (e.which == 13) {
-			table.search( $(this).val() ).draw();
-		}
-	});
+        if (e.which == 13) {
+            table.search($(this).val()).draw();
+        }
+    });
     $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     });
-	$('.id_jenjang').select2({
+
+    $('.id_jabatan').select2({})
+    $('.id_jenjang').select2({
 		placeholder: 'Pilih Jenjang',
 		allowClear: true,
 		ajax: {
@@ -142,15 +152,9 @@ $(document).ready(function () {
 		}
 	});
 
-    $(document).on('change','.filter', function(){
-        table.ajax.reload(null,false);
-    });
+    $(document).on('change', '.filter', function () {
+        table.ajax.reload(null, true);
+    })
 
-	$('form').on('keyup keypress', function(e) {
-		var keyCode = e.keyCode || e.which;
-		if (keyCode === 13) { 
-		  e.preventDefault();
-		  return false;
-		}
-	  });
+    $('.status_hadir').select2({});
 });

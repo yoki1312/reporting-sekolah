@@ -7,6 +7,7 @@ use Yajra\DataTables\Facades\DataTables;
 use App\Models\UserModels;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use PDF;
 
 class HasilUjianController extends Controller
 {
@@ -62,6 +63,44 @@ class HasilUjianController extends Controller
         }
         return view('hasil_ujian.view');
     }
+    public function hasil_ujianExportPdf(Request $request)
+    {
+            $users = UserModels::leftjoin('t_nilai_ujian as ta','ta.id_user','=','m_user.id_user')
+            ->leftjoin('m_user_sekolah as tb','tb.id_user','m_user.id_user')
+            ->leftjoin('m_sekolahan as tc', 'tc.id_sekolahan','tb.id_sekolah')
+            ->leftjoin('m_kecamatan as td', 'td.id_kecamatan','tc.id_kecamatan')
+            ->leftjoin('m_jenjang as te','te.id_jenjang','tc.id_jenjang')
+            ->select(DB::RAW('sum(ta.jumlah_benar) as total_nilai,tc.id_sekolahan, td.id_kecamatan, te.nama_jenjang, m_user.*, tc.nama_sekolahan, td.nama_kecamatan, tc.id_jenjang'));
+            
+            if(!empty($request->id_sekolah)){
+                $users->where('tc.id_sekolahan', $request->id_sekolah);
+            }
+            if(!empty($request->id_jenjang)){
+                $users->where('tc.id_jenjang', $request->id_jenjang);
+            }
+            if(!empty($request->id_jabatan)){
+                $users->where('tb.id_jabatan', $request->id_jabatan);
+            }
+
+            if(!empty($request->id_kecamatan)){
+                $id_kec = implode(",",$request->id_kecamatan);
+                $users->whereRaw("td.id_kecamatan in ($id_kec)");
+            }
+
+            if(Auth::user()->is_login == 0){
+                $users->where('tc.npsn', Auth::user()->username);  
+            }
+
+
+            $users->groupby('m_user.id_user');
+            $users->get();
+        
+            $users = $users->get();
+
+            // printJSON($users);
+            $pdf = PDF::loadview('hasil_ujian.hasil_ujian_pdf',['data'=>$users]);
+            return $pdf->stream();
+    }
 
     /**
      * Show the form for creating a new resource.
@@ -111,6 +150,31 @@ class HasilUjianController extends Controller
 
 
         return view('hasil_ujian.detail', compact('users','nilai'));
+    }
+
+    public function hasil_ujian_pdf_detail($id)
+    {
+        $users = UserModels::leftjoin('t_nilai_ujian as ta','ta.id_user','m_user.id_user')
+        ->leftjoin('m_user_sekolah as tb','tb.id_user','m_user.id_user')
+        ->leftjoin('m_sekolahan as tc', 'tc.id_sekolahan','tb.id_sekolah')
+        ->leftjoin('m_kecamatan as td', 'td.id_kecamatan','tc.id_kecamatan')
+        ->leftjoin('m_jenjang as te', 'te.id_jenjang','tb.id_jabatan')
+        ->select(DB::RAW('sum(ta.jumlah_benar) as total_nilai,te.nama_jenjang, tc.id_sekolahan, td.id_kecamatan, m_user.*, tc.nama_sekolahan, td.nama_kecamatan'))
+        ->where('m_user.id_user', $id)
+        ->groupby('m_user.id_user')
+        ->first();
+
+        $nilai = DB::table('t_nilai_ujian as ta')
+        ->leftjoin('m_kategori_ujian as tb','tb.id_kategori_ujian','ta.id_kategori_ujian')
+        ->select('ta.jumlah_benar', 'tb.jumlah_soal','tb.nama_kategori_ujian')
+        ->where('ta.id_user', $id)
+        ->get();
+        // dd($nilai);  
+        $pdf = PDF::loadview('hasil_ujian.hasil_ujian_pdf_detail',['data'=>$users, 'nilai'=>$nilai]);
+        return $pdf->stream();
+
+
+        // return view('hasil_ujian.detail', compact('users','nilai'));
     }
 
     /**
