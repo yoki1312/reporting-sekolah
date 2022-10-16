@@ -186,7 +186,7 @@ License: You must have a valid license purchased only from wrapbootstrap.com (li
                                             </div>
                                             <div class="form-group">
                                                 <label class="form-label" for="password">Password</label>
-                                                <input type="password" id="password" name="password" class="form-control form-control-lg" placeholder="password" value="password123" required>
+                                                <input type="password" id="password" name="password" class="form-control form-control-lg" placeholder="password" required>
                                                 <!-- <div class="invalid-feedback">Sorry, you missed this one.</div> -->
                                                 <div class="help-block">Your password</div>
                                             </div>

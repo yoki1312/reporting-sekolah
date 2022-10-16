@@ -226,7 +226,7 @@ License: You must have a valid license purchased only from wrapbootstrap.com (li
                                     <a href="{{ url('user') }}" title="Checkbox & Radio"
                                         data-filter-tags="form stuff checkbox & radio">
                                         <span class="nav-link-text"
-                                            data-i18n="nav.form_stuff_checkbox_&_radio">User</span>
+                                            data-i18n="nav.form_stuff_checkbox_&_radio">Peserta</span>
                                     </a>
                                 </li>
                                 <li>

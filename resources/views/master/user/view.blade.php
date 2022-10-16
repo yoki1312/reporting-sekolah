@@ -4,7 +4,7 @@
 <main id="js-page-content" role="main" class="page-content">
     <div class="subheader">
         <h1 class="subheader-title">
-            <i class='fal fa-info-circle'></i> User
+            <i class='fal fa-info-circle'></i> Peserta
         </h1>
     </div>
     <div class="row">
