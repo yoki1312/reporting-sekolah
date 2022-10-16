@@ -31,12 +31,12 @@ class ReferensiSelect2Controller extends Controller
     }
 
     public function select2bidang(Request $request){
-        $sql = "select * from m_kategori_ujian where 1 =1";
+        $sql = "select ta.*, tb.nama_jabatan from m_kategori_ujian ta left join m_jabatan tb on tb.id_jabatan = ta.id_jabatan where 1 =1";
         if(isset($request->id_jabatan)){
-            $sql .= " and id_jabatan = $request->id_jabatan ";
+            $sql .= " and ta.id_jabatan = $request->id_jabatan ";
         }
         if(isset($request->q)){
-            $sql .= " and nama_bidang LIKE '%$request->q%' ";
+            $sql .= " and ta.nama_bidang LIKE '%$request->q%' ";
         }
         // printJSON($sql);
         return DB::select($sql);

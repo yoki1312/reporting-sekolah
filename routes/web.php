@@ -15,6 +15,7 @@ use Illuminate\Contracts\Session\Session;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -143,6 +144,8 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('kecamatan', KecamatanController::class);
     Route::resource('sekolah', SekolahController::class);
     Route::get('hasil_ujian/detail/{id_guru}', [HasilUjianController::class,'show']);
+    Route::get('resetPassword/{id_sekolahan}', [SekolahController::class,'resetPassword']);
+    Route::post('gantiPassword', [SekolahController::class,'gantiPassword']);
     Route::get('hasil_ujian_pdf_detail/detail/{id_guru}', [HasilUjianController::class,'hasil_ujian_pdf_detail']);
     Route::post('dashboard/jumlah_peserta', [DashboardController::class,'jumlah_peserta']);
     Route::post('dashboard/jumlah_peserta_absen', [DashboardController::class,'jumlah_peserta_absen']);

@@ -24,7 +24,7 @@
                                 <input type="search" class="form-control" placeholder="Search" />
                             </div>
                         </div>
-                        <div style=" <?= Auth::user()->is_login == 0 ? 'display:none' : '' ?>" class="col-md-2 form-group">
+                        <div style=" <?= Auth::user()->id_status == 1 ? 'display:none' : '' ?>" class="col-md-2 form-group">
                             <label class="form-label">Jabatan</label>
                             <select name="id_jabatan" class="id_jabatan filter select2">
                                 <option value="">Tampilkan Semua</option>
@@ -32,15 +32,15 @@
                                 <option value="2">Kepala Sekoah</option>
                             </select>
                         </div>
-                        <div style=" <?= Auth::user()->is_login == 0 ? 'display:none' : '' ?>" class="col-md-2 form-group">
+                        <div style=" <?= Auth::user()->id_status == 1 ? 'display:none' : '' ?>" class="col-md-2 form-group">
                             <label class="form-label">Jenjang</label>
                             <select name="id_jenjang" class="id_jenjang filter"></select>
                         </div>
-                        <div style=" <?= Auth::user()->is_login == 0 ? 'display:none' : '' ?>" class="col-md-4 form-group">
+                        <div style=" <?= Auth::user()->id_status == 1 ? 'display:none' : '' ?>" class="col-md-4 form-group">
                             <label class="form-label">Sekoah</label>
                             <select name="id_sekolah" class="id_sekolah filter"></select>
                         </div>
-                        <div style=" <?= Auth::user()->is_login == 0 ? 'display:none' : '' ?>" class="col-md-5 form-group">
+                        <div style=" <?= Auth::user()->id_status == 1 ? 'display:none' : '' ?>" class="col-md-5 form-group">
                             <label class="form-label">Kecamatan</label>
                             <select name="id_kecamatan[]" class="id_kecamatan filter" multiple></select>
                         </div>

@@ -5,7 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 use App\Models\SekolahModels;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+use Svg\Tag\Rect;
 
 class SekolahController extends Controller
 {
@@ -73,9 +76,23 @@ class SekolahController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function resetPassword($id)
     {
-        //
+        SekolahModels::where('id_sekolahan',$id)->update([
+            'password' => Hash::make('tendikgresik'),
+        ]);
+
+        return 200;
+    }
+    public function gantiPassword(Request $request)
+    {
+        // printJSON($request);
+        SekolahModels::where('id_sekolahan',Auth::user()->id_sekolahan)->update([
+            'password' => Hash::make($request->password),
+        ]);
+        Auth::logout();
+
+        return redirect('/');
     }
 
     /**

@@ -75,7 +75,7 @@ $(document).ready(function () {
         }
     });
 	$('.id_jenjang').select2({
-		placeholder: 'Pilih Jenjang',
+		placeholder: 'Semua Jenjang',
 		allowClear: true,
 		ajax: {
 			dataType: "json",
@@ -98,7 +98,7 @@ $(document).ready(function () {
 	});
 
     $('.id_kecamatan').select2({
-		placeholder: 'Pilih Kecamatan',
+		placeholder: 'Semua Kecamatan',
 		allowClear: true,
 		ajax: {
 			dataType: "json",
@@ -120,7 +120,7 @@ $(document).ready(function () {
 		}
 	});
     $('.id_sekolah').select2({
-		placeholder: 'Pilih Sekolah',
+		placeholder: 'Semua Sekolah',
 		allowClear: true,
 		ajax: {
 			dataType: "json",

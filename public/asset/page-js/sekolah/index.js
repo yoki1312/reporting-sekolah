@@ -45,6 +45,13 @@ $(document).ready(function () {
                 data: 'nama_kecamatan',
                 className: 'text-center',
             },
+            {
+                data: 'nama_kecamatan',
+                className: 'text-center',
+                render : function(meta,data,row){
+                    return '<button class="btn btn-sm btn-success btn-reset" type="button">Reset Password</button>'
+                }
+            },
 
         ]
     });
@@ -60,8 +67,32 @@ $(document).ready(function () {
         }
     });
 
+    $(document).on('click','.btn-reset', function(){
+        let row = table.row( $(this).closest('tr') ).data();
+        Swal.fire({
+            title: 'Reset Password?',
+            text: "Password akan di reset menjadi default ( tendikgresik )",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Lanjutkan !'
+          }).then((result) => {
+            if (result.isConfirmed) {
+                $.get(baseurl + "resetPassword/" + row.id_sekolahan , function(data, status){
+                    // alert("Data: " + data + "\nStatus: " + status);
+                      Swal.fire(
+                        'Berhasil!',
+                        'password dikembalikan ke default.',
+                        'success'
+                      )
+                  });
+            }
+          })
+    })
+
     $('.id_kecamatan').select2({
-        placeholder: 'Pilih Kecamatan',
+        placeholder: 'Semua Kecamatan',
         allowClear: true,
         ajax: {
             dataType: "json",
@@ -83,7 +114,7 @@ $(document).ready(function () {
         }
     });
     $('.id_jenjang').select2({
-        placeholder: 'Pilih Jenjang',
+        placeholder: 'Semua Jenjang',
         allowClear: true,
         ajax: {
             dataType: "json",

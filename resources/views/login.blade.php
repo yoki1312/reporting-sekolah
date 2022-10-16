@@ -144,7 +144,7 @@ License: You must have a valid license purchased only from wrapbootstrap.com (li
                                 <div class="col col-md-6 col-lg-7 hidden-sm-down text-center">
                                     <img src="{{ asset('asset/img/logo-pemkab.png') }}" style="width:50%; height:60%"  alt="SmartAdmin WebApp" aria-roledescription="logo">
                                     <h2 class="fs-xxl fw-500 mt-4 text-white">
-                                    Pemerintahan Kabupaten Gresik - Dinas Pendidikan <br><small>Jl Arif rahmat Hakim No 22 Gresik.Telp. 031-3981315</small>
+                                    Pemerintahan Kabupaten Gresik <br> Dinas Pendidikan <br><small>Jl Arif rahmat Hakim No 22 Gresik.Telp. 031-3981315</small>
                                     <small class="h3 fw-300 mt-3 mb-5 text-white opacity-60">
                                             <h2>Pengumuman Hasil Ujian Mutu Guru Tahun 2022 (UMG 2022) </h2>
                                             <!-- Presenting you with the next level of innovative UX design and engineering. The most modular toolkit available with over 600+ layout permutations. Experience the simplicity of SmartAdmin, everywhere you go! -->
@@ -180,7 +180,7 @@ License: You must have a valid license purchased only from wrapbootstrap.com (li
 @csrf
                                             <div class="form-group">
                                                 <label class="form-label" for="username">NPSN</label>
-                                                <input type="text" name="username" id="username" class="form-control form-control-lg" placeholder="NPSN" required>
+                                                <input type="text" name="npsn" id="username" class="form-control form-control-lg" placeholder="NPSN" required>
                                                 <!-- <div class="invalid-feedback">No, you missed this one.</div> -->
                                                 <div class="help-block">Your NPSN / Usename</div>
                                             </div>

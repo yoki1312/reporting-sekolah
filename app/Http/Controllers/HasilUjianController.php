@@ -41,8 +41,8 @@ class HasilUjianController extends Controller
                 $users->whereRaw("td.id_kecamatan in ($id_kec)");
             }
 
-            if(Auth::user()->is_login == 0){
-                $users->where('tc.npsn', Auth::user()->username);  
+            if(Auth::user()->id_status == 1){
+                $users->whereRaw('m_user.id_user in ('.id_user_sekolah().')');  
             }
 
 
@@ -88,8 +88,8 @@ class HasilUjianController extends Controller
                 $users->whereRaw("td.id_kecamatan in ($id_kec)");
             }
 
-            if(Auth::user()->is_login == 0){
-                $users->where('tc.npsn', Auth::user()->username);  
+            if(Auth::user()->id_status == 1){
+                $users->whereRaw('m_user.id_user in ('.id_user_sekolah().')');  
             }
 
 
@@ -136,7 +136,7 @@ class HasilUjianController extends Controller
         ->leftjoin('m_user_sekolah as tb','tb.id_user','m_user.id_user')
         ->leftjoin('m_sekolahan as tc', 'tc.id_sekolahan','tb.id_sekolah')
         ->leftjoin('m_kecamatan as td', 'td.id_kecamatan','tc.id_kecamatan')
-        ->leftjoin('m_jenjang as te', 'te.id_jenjang','tb.id_jabatan')
+        ->leftjoin('m_jenjang as te', 'te.id_jenjang','tc.id_jenjang')
         ->select(DB::RAW('sum(ta.jumlah_benar) as total_nilai,te.nama_jenjang, tc.id_sekolahan, td.id_kecamatan, m_user.*, tc.nama_sekolahan, td.nama_kecamatan'))
         ->where('m_user.id_user', $id)
         ->groupby('m_user.id_user')
@@ -159,7 +159,7 @@ class HasilUjianController extends Controller
         ->leftjoin('m_user_sekolah as tb','tb.id_user','m_user.id_user')
         ->leftjoin('m_sekolahan as tc', 'tc.id_sekolahan','tb.id_sekolah')
         ->leftjoin('m_kecamatan as td', 'td.id_kecamatan','tc.id_kecamatan')
-        ->leftjoin('m_jenjang as te', 'te.id_jenjang','tb.id_jabatan')
+        ->leftjoin('m_jenjang as te', 'te.id_jenjang','tc.id_jenjang')
         ->select(DB::RAW('sum(ta.jumlah_benar) as total_nilai,te.nama_jenjang, tc.id_sekolahan, td.id_kecamatan, m_user.*, tc.nama_sekolahan, td.nama_kecamatan'))
         ->where('m_user.id_user', $id)
         ->groupby('m_user.id_user')

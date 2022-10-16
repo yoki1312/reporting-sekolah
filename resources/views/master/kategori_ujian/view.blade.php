@@ -11,7 +11,7 @@
        <div class="col-sm-6">
        <div class="card">
             <div class="card-body">
-                <div class="col-md-4">
+                <div class="col-md-6">
                     <label class="form-label">Search</label>
                     <div class="input-group input-group mb-3">
                         <div class="input-group-prepend">

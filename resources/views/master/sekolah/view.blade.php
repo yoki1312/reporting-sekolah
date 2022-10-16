@@ -39,6 +39,7 @@
                                         <th class="text-center" scope="col">NPSN</th>
                                         <th class="text-center" scope="col">Nama Jenjang</th>
                                         <th class="text-center" scope="col">Kecamatan</th>
+                                        <th class="text-center" scope="col">Opsi</th>
                                     </tr>
                                 </thead>
                                 <tbody>
