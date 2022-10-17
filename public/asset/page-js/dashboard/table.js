@@ -245,7 +245,7 @@ $(document).ready(function () {
                 d.id_sekolah = $('.sec-nilai-rata2').find('.id_sekolah').val();
                 d.id_jabatan = $('.sec-nilai-rata2').find('.id_jabatan').val();
                 d.id_jenjang = $('.sec-nilai-rata2').find('.id_jenjang').val();
-                d.id_kategori_ujian = $('.sec-nilai-rata2').find('.id_bidang_all').val();
+                d.id_kategori_ujian = $('.sec-nilai-rata2').find('.id_bidang_rata_rata').val();
                 return d;
             }
         },
@@ -334,7 +334,7 @@ $(document).ready(function () {
 	});
 
     $('.id_kecamatan').select2({
-		placeholder: 'Semua Kecamatan',
+		placeholder: 'Jika tidak dipilih, default semua kecamatan',
 		allowClear: true,
 		ajax: {
 			dataType: "json",
@@ -436,6 +436,32 @@ $(document).ready(function () {
 			dataType: "json",
 			method: 'POST',
 			url: baseurl + "referensi/bidangSelect2",
+			delay: 300,
+			processResults: function (data) {
+				return {
+					results: data.map(function (item) {
+						item.id = item.id_kategori_ujian;
+						item.text = item.nama_kategori_ujian + ' - ' + item.nama_jabatan;
+						return item;
+					})
+				};
+			},
+		},
+		escapeMarkup: function (m) {
+			return m;
+		}
+	});
+    $('.id_bidang_rata_rata').select2({
+		placeholder: 'Semua Bidang',
+		allowClear: true,
+		ajax: {
+			dataType: "json",
+			method: 'POST',
+			url: baseurl + "referensi/bidangSelect2",
+            data : function(d){
+                d.id_jabatan =   $('.sec-nilai-rata2').find('.id_jabatan').val();
+                return d;
+            },
 			delay: 300,
 			processResults: function (data) {
 				return {

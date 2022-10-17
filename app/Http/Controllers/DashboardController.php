@@ -216,6 +216,9 @@ class DashboardController extends Controller
             if(!empty($request->id_jenjang)){
                 $users->where('m_sekolahan.id_jenjang', $request->id_jenjang);
             }
+            if(!empty($request->id_jabatan)){
+                $users->where('tb.id_jabatan', $request->id_jabatan);
+            }
 
             if(!empty($request->id_kecamatan)){
                 if(is_array($request->id_kecamatan)){

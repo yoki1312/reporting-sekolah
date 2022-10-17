@@ -287,7 +287,7 @@
                                         data-parent="#accordion140">
                                         <div class="card-body">
                                             <div class="row">
-                                                <div class="col-md-3">
+                                                <div class="col-md-3 form-group">
                                                     <label class="form-label">Search</label>
                                                     <div class="input-group input-group mb-3">
                                                         <div class="input-group-prepend">
@@ -298,15 +298,22 @@
                                                             class="form-control" placeholder="Search" />
                                                     </div>
                                                 </div>
-                                                <div class="col-md-2">
+                                                <div class="col-md-2 form-group">
                                                     <label class="form-label">Jenjang</label>
                                                     <select class="id_jenjang filter-nilai-rata2"></select>
                                                 </div>
-                                                <div class="col-md-2">
-                                                    <label class="form-label">Bidang</label>
-                                                    <select class="id_bidang_all filter-nilai-rata2"></select>
+                                                <div class="col-md-2 form-group">
+                                                    <label class="form-label">Jabatan</label>
+                                                    <select class="id_jabatan filter-nilai-rata2">
+                                                        <option value="1">Guru</option>
+                                                        <option value="2">Kepala sekolah</option>
+                                                    </select>
                                                 </div>
-                                                <div class="col-md-5">
+                                                <div class="col-md-2 form-group">
+                                                    <label class="form-label">Bidang</label>
+                                                    <select class="id_bidang_rata_rata filter-nilai-rata2"></select>
+                                                </div>
+                                                <div class="col-md-3 form-group">
                                                     <label class="form-label">Kecamatan</label>
                                                     <select class="id_kecamatan filter-nilai-rata2" multiple></select>
                                                 </div>
