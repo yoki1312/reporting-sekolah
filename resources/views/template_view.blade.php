@@ -155,11 +155,11 @@ License: You must have a valid license purchased only from wrapbootstrap.com (li
                         <div class="info-card-text">
                             <a href="#" class="d-flex align-items-center text-white">
                                 <span class="text-truncate text-truncate-sm d-inline-block">
-                                    <?= Auth::user()->id_status == 1 ? Auth::user()->nama_sekolahan : 'Dinas Pendidikan Kabupaten Gresik' ?>
+                                    <?= Auth::check() && Auth::user()->id_status == 1 ? Auth::user()->nama_sekolahan : 'Dinas Pendidikan Kabupaten Gresik' ?>
                                 </span>
                             </a>
                             <span class="d-inline-block text-truncate text-truncate-sm">
-                                <?= Auth::user()->id_status == 1 ? is_auth()->nama_kecamatan : 'Bagian Tenaga Kependidikan (Tendik)' ?>
+                                <?= Auth::check() && Auth::user()->id_status == 1 ? is_auth()->nama_kecamatan : 'Bagian Tenaga Kependidikan (Tendik)' ?>
                             </span>
                         </div>
                         <img src="{{ asset('asset/img/card-backgrounds/cover-2-lg.png') }}" class="cover" alt="cover">
@@ -170,18 +170,25 @@ License: You must have a valid license purchased only from wrapbootstrap.com (li
                     </div>
                     <ul id="js-nav-menu" class="nav-menu">
                         <li>
-                            <a href="{{ url('/') }}" title="Hasil Ujian" data-filter-tags="hasil ujian">
+                            @php 
+                                $linkDashboard = url('dashboard-data');
+                                if(Auth::check()) $linkDashboard = url('/');
+                                
+                                $linkDashboardStatistik = url('dashboard-statistik');
+                                if(Auth::check()) $linkDashboardStatistik = url('statistik');
+                            @endphp
+                            <a href="{{ $linkDashboard }}" title="Hasil Ujian" data-filter-tags="hasil ujian">
                                 <i class="fal fa-window"></i>
                                 <span class="nav-link-text" data-i18n="nav.hasil_ujian">Dashboard</span>
                             </a>
                         </li>
                         <li>
-                            <a href="{{ url('/statistik') }}" title="Hasil Ujian" data-filter-tags="hasil ujian">
+                            <a href="{{ $linkDashboardStatistik }}" title="Hasil Ujian" data-filter-tags="hasil ujian">
                                 <i class="fal fa-chart-bar"></i>
                                 <span class="nav-link-text" data-i18n="nav.hasil_ujian">Statistik</span>
                             </a>
                         </li>
-
+                    @if(Auth::check())
                         <li>
                             <a href="#" title="Form Stuff" data-filter-tags="form stuff">
                                 <i class="fal fa-edit"></i>
@@ -245,6 +252,7 @@ License: You must have a valid license purchased only from wrapbootstrap.com (li
                                 </li>
                             </ul>
                         </li>
+                    @endif
                         <!-- <li>
                             <a href="{{ route('logout') }}" onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
@@ -253,6 +261,7 @@ License: You must have a valid license purchased only from wrapbootstrap.com (li
                             </a>
                         </li> -->
                     </ul>
+
                     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                         @csrf
                     </form>
@@ -1435,6 +1444,7 @@ License: You must have a valid license purchased only from wrapbootstrap.com (li
 									<i class="ni ni-chevron-down hidden-xs-down"></i> -->
                             </a>
                             <div class="dropdown-menu dropdown-menu-animated dropdown-lg">
+                                @if(Auth::check())
                                 <div class="dropdown-header bg-trans-gradient d-flex flex-row py-4 rounded-top">
                                     <div class="d-flex flex-row align-items-center mt-1 mb-1 color-white">
                                         <span class="mr-2">
@@ -1460,7 +1470,14 @@ License: You must have a valid license purchased only from wrapbootstrap.com (li
                                     class="dropdown-item fw-500 pt-3 pb-3">
                                     <span data-i18n="drpdwn.page-logout">Logout</span>
                                 </a>
+                                @else
+                                <a href="{{ url('dataLogin') }}" class="dropdown-item fw-500 pt-3 pb-3">
+                                    <span data-i18n="drpdwn.page-logout">Login</span>
+                                </a>
+
+                                @endif
                             </div>
+
                         </div>
                     </div>
 
