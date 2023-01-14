@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 use App\Models\SekolahModels;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -31,6 +32,10 @@ class SekolahController extends Controller
             }
             if(!empty($request->id_jenjang)){
                 $users->where('m_sekolahan.id_jenjang', $request->id_jenjang);
+            }
+
+            if(!empty(Auth::user()->id_jenjang_pengawas)){
+                $users->where('m_sekolahan.id_jenjang', Auth::user()->id_jenjang_pengawas);
             }
             $users->get(); 
             $users = $users->get(); 
@@ -78,7 +83,7 @@ class SekolahController extends Controller
      */
     public function resetPassword($id)
     {
-        SekolahModels::where('id_sekolahan',$id)->update([
+        User::where('id_user',$id)->update([
             'password' => Hash::make('tendikgresik'),
         ]);
 
@@ -87,7 +92,7 @@ class SekolahController extends Controller
     public function gantiPassword(Request $request)
     {
         // printJSON($request);
-        SekolahModels::where('id_sekolahan',Auth::user()->id_sekolahan)->update([
+        User::where('id_user',Auth::user()->id_user)->update([
             'password' => Hash::make($request->password),
         ]);
         Auth::logout();

@@ -6,6 +6,7 @@ use App\Models\UserModels;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Facades\DataTables;
+use Illuminate\Support\Facades\Auth;
 // DB
 
 class UserController extends Controller
@@ -43,6 +44,9 @@ class UserController extends Controller
             if(!empty($request->id_kecamatan)){
                 $id_kec = implode(",",$request->id_kecamatan);
                 $users->whereRaw("td.id_kecamatan in ($id_kec)");
+            }
+            if(!empty(Auth::user()->id_jenjang_pengawas)){
+                $users->where('tb.id_jenjang', Auth::user()->id_jenjang_pengawas);
             }
             $users = $users->get();
 
