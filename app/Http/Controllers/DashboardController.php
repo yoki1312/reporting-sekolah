@@ -8,6 +8,7 @@ use App\Models\UserModels;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Ramsey\Uuid\Type\Decimal;
+use Illuminate\Support\Facades\Auth;
 // User
 class DashboardController extends Controller
 {
@@ -24,9 +25,14 @@ class DashboardController extends Controller
         ->join('m_sekolahan as tc', 'tc.id_sekolahan', 'tx.id_sekolah')
         ->join('m_kecamatan as td', 'td.id_kecamatan','tc.id_kecamatan')
         ->join('m_jenjang as te', 'te.id_jenjang','tc.id_jenjang')
-        ->select(DB::RAW('count(ta.id_user) as total_peserta,te.nama_jenjang, tc.id_jenjang, td.id_kecamatan, td.nama_kecamatan'))
-        ->groupby('td.id_kecamatan','tc.id_jenjang')
-        ->get();
+        ->select(DB::RAW('count(ta.id_user) as total_peserta,te.nama_jenjang, tc.id_jenjang, td.id_kecamatan, td.nama_kecamatan'));
+        
+        
+        // if( !empty(Auth::user()->id_jenjang_pengawas)){
+        //     $data->where('tc.id_jenjang', Auth::user()->id_jenjang_pengawas); 
+        // }
+        $data->groupby('td.id_kecamatan','tc.id_jenjang')->get();
+        $data = $data->get();
 
         $data = collect($data)->groupBy(['id_kecamatan','id_jenjang'])->toArray();
         $ar = array();
@@ -164,6 +170,9 @@ class DashboardController extends Controller
             if(!empty($request->id_sekolah)){
                 $users->where('m_sekolahan.id_sekolahan', $request->id_sekolah);
             }
+            if(!empty(Auth::user()->id_jenjang_pengawas)){
+                $users->where('m_sekolahan.id_jenjang', Auth::user()->id_jenjang_pengawas);
+            }
            
             if(!empty($request->id_jenjang)){
                 $users->where('m_sekolahan.id_jenjang', $request->id_jenjang);
@@ -173,6 +182,8 @@ class DashboardController extends Controller
                 $id_kec = implode(",",$request->id_kecamatan);
                 $users->whereRaw("td.id_kecamatan in ($id_kec)");
             }
+
+            
 
 
             $users->groupby('m_sekolahan.id_sekolahan');
@@ -218,6 +229,10 @@ class DashboardController extends Controller
             }
             if(!empty($request->id_jabatan)){
                 $users->where('tb.id_jabatan', $request->id_jabatan);
+            }
+
+            if(!empty(Auth::user()->id_jenjang_pengawas)){
+                $users->where('m_sekolahan.id_jenjang', Auth::user()->id_jenjang_pengawas);
             }
 
             if(!empty($request->id_kecamatan)){
@@ -276,6 +291,9 @@ class DashboardController extends Controller
             if(!empty($request->id_kecamatan)){
                 $id_kec = implode(",",$request->id_kecamatan);
                 $users->whereRaw("te.id_kecamatan in ($id_kec)");
+            }
+            if(!empty(Auth::user()->id_jenjang_pengawas)){
+                $users->where('tc.id_jenjang', Auth::user()->id_jenjang_pengawas);
             }
 
 

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class ReferensiSelect2Controller extends Controller
@@ -11,6 +12,10 @@ class ReferensiSelect2Controller extends Controller
         $sql = "select * from m_sekolahan where 1 =1";
         if(isset($request->q)){
             $sql .= " and nama_sekolahan LIKE '%$request->q%' ";
+        }
+        
+        if( !empty(Auth::user()->id_jenjang_pengawas)){
+            $sql .= " and id_jenjang = '". Auth::user()->id_jenjang_pengawas ."' ";
         }
         return DB::select($sql);
     }
@@ -26,6 +31,10 @@ class ReferensiSelect2Controller extends Controller
         $sql = "select * from m_jenjang where 1 =1";
         if(isset($request->q)){
             $sql .= " and nama_jenjang LIKE '%$request->q%' ";
+        }
+
+        if( !empty(Auth::user()->id_jenjang_pengawas)){
+            $sql .= " and id_jenjang = '". Auth::user()->id_jenjang_pengawas ."' ";
         }
         return DB::select($sql);
     }

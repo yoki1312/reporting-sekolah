@@ -35,14 +35,18 @@ class HasilUjianController extends Controller
             if(!empty($request->id_jabatan)){
                 $users->where('tb.id_jabatan', $request->id_jabatan);
             }
-
+            
             if(!empty($request->id_kecamatan)){
                 $id_kec = implode(",",$request->id_kecamatan);
                 $users->whereRaw("td.id_kecamatan in ($id_kec)");
             }
-
+            
             if(Auth::user()->id_status == 1){
                 $users->whereRaw('m_user.id_user in ('.id_user_sekolah().')');  
+            }
+            
+            if( !empty(Auth::user()->id_jenjang_pengawas)){
+                $users->where('tc.id_jenjang', Auth::user()->id_jenjang_pengawas); 
             }
 
 
@@ -92,6 +96,10 @@ class HasilUjianController extends Controller
                 $users->whereRaw('m_user.id_user in ('.id_user_sekolah().')');  
             }
 
+
+            if( !empty(Auth::user()->id_jenjang_pengawas)){
+                $users->where('tc.id_jenjang', Auth::user()->id_jenjang_pengawas); 
+            }
 
             $users->groupby('m_user.id_user');
             $users->get();
