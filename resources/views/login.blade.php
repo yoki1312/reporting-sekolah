@@ -179,7 +179,7 @@ License: You must have a valid license purchased only from wrapbootstrap.com (li
                                     <form method="POST" action="{{ url('login/auth') }}">
 @csrf
                                             <div class="form-group">
-                                                <label class="form-label" for="username">NPSN</label>
+                                                <label class="form-label" for="username">NPSN / NIP</label>
                                                 <input type="text" name="npsn" id="username" class="form-control form-control-lg" placeholder="NPSN" required>
                                                 <!-- <div class="invalid-feedback">No, you missed this one.</div> -->
                                                 <div class="help-block">Your NPSN / Usename</div>
