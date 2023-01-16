@@ -133,7 +133,7 @@ Route::get('/dashboard-data', function () {
 Route::get('/dashboard-statistik', function () {
         return view('statistik');
     });
-    Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth'])->group(function () {
     Route::get('/statistik', function () {
         return view('statistik');
     });
