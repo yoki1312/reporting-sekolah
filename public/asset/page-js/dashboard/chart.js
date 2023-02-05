@@ -15,6 +15,7 @@ function drawVisualization() {
         async: true,
         data: {
             "tahun": $('.tahun_filter').val(),
+            "is_gupres" : $('.is_grupes').val()
         },
         success: function (result) {
             let data = google.visualization.arrayToDataTable(result);
@@ -57,6 +58,7 @@ function drawVisualizationAbsen() {
         async: true,
         data: {
             "tahun": $('.tahun_filter').val(),
+            "is_gupres" : $('.is_grupes').val()
         },
         success: function (result) {
             let data = google.visualization.arrayToDataTable(result);
@@ -99,6 +101,7 @@ function drawVisualization1() {
         async: true,
         data: {
             "tahun": $('.tahun_filter').val(),
+            "is_gupres" : $('.is_grupes').val()
         },
         success: function (result) {
             let data = google.visualization.arrayToDataTable(result);
@@ -158,7 +161,8 @@ $(document).ready(function () {
                 async: true,
                 data: {
                     "id_jenjang": id_jenjang,
-                    "id_jabatan": 1
+                    "id_jabatan": 1,
+                    "is_gupres" : $('.is_grupes').val()
                 },
                 success: function (result) {
                     let data = google.visualization.arrayToDataTable(result);
@@ -218,7 +222,8 @@ $(document).ready(function () {
                 async: true,
                 data: {
                     "id_jenjang": id_jenjang,
-                    "id_jabatan": 2
+                    "id_jabatan": 2,
+                    "is_gupres" : $('.is_grupes').val()
                 },
                 success: function (result) {
                     let data = google.visualization.arrayToDataTable(result);

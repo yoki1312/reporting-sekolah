@@ -21,6 +21,7 @@ $(document).ready(function () {
                 d.id_kategori_ujian = $('.id_bidang_all').val();
                 d.id_jabatan = $('.id_jabatan').val();
                 d.id_jenjang = $('.id_jenjang').val();
+                d.is_gupres = $('.is_grupes').val()
                 return d;
             }
         },
@@ -75,6 +76,7 @@ $(document).ready(function () {
                 d.id_kategori_ujian = $('.sec-by-bidang').find('.id_bidang_all').val();
                 d.id_jabatan = $('.sec-by-bidang').find('.id_jabatan').val();
                 d.id_jenjang = $('.sec-by-bidang').find('.id_jenjang').val();
+                d.is_gupres = $('.is_grupes').val()
                 return d;
             }
         },
@@ -129,6 +131,7 @@ $(document).ready(function () {
                 d.id_jabatan = 1;
                 d.id_kategori_ujian =  $('.sec-guru').find('.id_bidang_guru').val();
                 d.id_jenjang = $('.sec-guru').find('.id_jenjang').val();
+                d.is_gupres = $('.is_grupes').val()
                 return d;
             }
         },
@@ -187,6 +190,7 @@ $(document).ready(function () {
                 d.id_jabatan = 2;
                 d.id_kategori_ujian = $('.sec-kepsek').find('.id_bidang_kepsek').val();
                 d.id_jenjang = $('.sec-kepsek').find('.id_jenjang').val();
+                d.is_gupres = $('.is_grupes').val()
                 return d;
             }
         },
@@ -246,6 +250,7 @@ $(document).ready(function () {
                 d.id_jabatan = $('.sec-nilai-rata2').find('.id_jabatan').val();
                 d.id_jenjang = $('.sec-nilai-rata2').find('.id_jenjang').val();
                 d.id_kategori_ujian = $('.sec-nilai-rata2').find('.id_bidang_rata_rata').val();
+                d.is_gupres = $('.is_grupes').val()
                 return d;
             }
         },

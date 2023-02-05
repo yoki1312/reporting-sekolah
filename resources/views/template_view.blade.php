@@ -169,14 +169,15 @@ License: You must have a valid license purchased only from wrapbootstrap.com (li
                         </a>
                     </div>
                     <ul id="js-nav-menu" class="nav-menu">
+                        @php
+                        $linkDashboard = url('dashboard-data');
+                        if(Auth::check()) $linkDashboard = url('/');
+
+                        $linkDashboardStatistik = url('dashboard-statistik');
+                        
+                        if(Auth::check()) $linkDashboardStatistik = url('statistik');
+                        @endphp
                         <li>
-                            @php 
-                                $linkDashboard = url('dashboard-data');
-                                if(Auth::check()) $linkDashboard = url('/');
-                                
-                                $linkDashboardStatistik = url('dashboard-statistik');
-                                if(Auth::check()) $linkDashboardStatistik = url('statistik');
-                            @endphp
                             <a href="{{ $linkDashboard }}" title="Hasil Ujian" data-filter-tags="hasil ujian">
                                 <i class="fal fa-window"></i>
                                 <span class="nav-link-text" data-i18n="nav.hasil_ujian">Dashboard</span>
@@ -188,7 +189,19 @@ License: You must have a valid license purchased only from wrapbootstrap.com (li
                                 <span class="nav-link-text" data-i18n="nav.hasil_ujian">Statistik</span>
                             </a>
                         </li>
-                    @if(Auth::check())
+                        <li>
+                            <a href="{{ $linkDashboard . '/gupres' }}" title="Hasil Ujian" data-filter-tags="hasil ujian">
+                                <i class="fal fa-window"></i>
+                                <span class="nav-link-text" data-i18n="nav.hasil_ujian">Dashboard GUPRES</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ $linkDashboardStatistik . '/gupres' }}" title="Hasil Ujian" data-filter-tags="hasil ujian">
+                                <i class="fal fa-chart-bar"></i>
+                                <span class="nav-link-text" data-i18n="nav.hasil_ujian">Statistik GUPRES</span>
+                            </a>
+                        </li>
+                        @if(Auth::check())
                         <li>
                             <a href="#" title="Form Stuff" data-filter-tags="form stuff">
                                 <i class="fal fa-edit"></i>
@@ -252,7 +265,29 @@ License: You must have a valid license purchased only from wrapbootstrap.com (li
                                 </li>
                             </ul>
                         </li>
-                    @endif
+                        @endif
+                        <li>
+                            <a href=" #" title="Form Stuff" data-filter-tags="form stuff">
+                                <i class="fal fa-th-list"></i>
+                                <span class="nav-link-text" data-i18n="nav.form_stuff">SPK</span>
+                            </a>
+                            <ul>
+                                <li>
+                                    <a href="{{ url('spk_smart') }}" title="Basic Inputs"
+                                        data-filter-tags="form stuff basic inputs">
+                                        <span class="nav-link-text" data-i18n="nav.form_stuff_basic_inputs">SMART</span>
+                                    </a>
+                                </li>
+                                
+                                <li>
+                                    <a href="{{ url('spk_saw') }}" title="Basic Inputs"
+                                        data-filter-tags="form stuff basic inputs">
+                                        <span class="nav-link-text" data-i18n="nav.form_stuff_basic_inputs">SAW</span>
+                                    </a>
+                                </li>
+                                
+                            </ul>
+                        </li>
                         <!-- <li>
                             <a href="{{ route('logout') }}" onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
@@ -2443,15 +2478,15 @@ License: You must have a valid license purchased only from wrapbootstrap.com (li
     </div>
     <form autocomplete="off" method="post" action="{{ url('gantiPassword') }}">
         @csrf
-    <div class="modal fade" id="modalResetPassword" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-body">
+        <div class="modal fade" id="modalResetPassword" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-body">
                         <div class="form-group">
                             <label for="exampleInputPassword1">Password Baru</label>
-                            <input type="password"  autocomplete="off" name="password" class="form-control" id="exampleInputPassword1"
-                                placeholder="Password">
+                            <input type="password" autocomplete="off" name="password" class="form-control"
+                                id="exampleInputPassword1" placeholder="Password">
                         </div>
                     </div>
                     <div class="modal-footer text-right">

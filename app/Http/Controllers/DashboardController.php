@@ -9,6 +9,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Ramsey\Uuid\Type\Decimal;
 use Illuminate\Support\Facades\Auth;
+use Svg\Tag\Rect;
+
 // User
 class DashboardController extends Controller
 {
@@ -18,37 +20,42 @@ class DashboardController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function jumlah_peserta()
+    public function jumlah_peserta(Request $request)
     {
         $data = DB::table('m_user as ta')
         ->join('m_user_sekolah as tx', 'tx.id_user', 'ta.id_user')
         ->join('m_sekolahan as tc', 'tc.id_sekolahan', 'tx.id_sekolah')
         ->join('m_kecamatan as td', 'td.id_kecamatan','tc.id_kecamatan')
         ->join('m_jenjang as te', 'te.id_jenjang','tc.id_jenjang')
+        ->leftjoin(DB::RAW(" (SELECT count(*) nilai_gupres, id_user from t_nilai_ujian where id_kategori_ujian = 13 group by id_user ) tdx"), function($join){
+            $join->on('tdx.id_user','=','tx.id_user');
+        })
         ->select(DB::RAW('count(ta.id_user) as total_peserta,te.nama_jenjang, tc.id_jenjang, td.id_kecamatan, td.nama_kecamatan'));
         
         
-        // if( !empty(Auth::user()->id_jenjang_pengawas)){
-        //     $data->where('tc.id_jenjang', Auth::user()->id_jenjang_pengawas); 
-        // }
+        if( !empty($request->is_gupres) ){
+            $data->where('tdx.nilai_gupres','>',0); 
+        }
         $data->groupby('td.id_kecamatan','tc.id_jenjang')->get();
+        // $data->get();
         $data = $data->get();
-
+        
         $data = collect($data)->groupBy(['id_kecamatan','id_jenjang'])->toArray();
         $ar = array();
         $ar[] = array('Kecamatan','TK',array( 'type' => 'string', 'role' => 'annotation' ),'SD',array( 'type' => 'string', 'role' => 'annotation' ),'SMP',array( 'type' => 'string', 'role' => 'annotation' )); 
+        // printJSON($data);
         foreach($data as $k => $val){
-            $nama_kecamatan = $val[1][0]->nama_kecamatan;
-            $tk = $val[1][0]->total_peserta;
-            $sd = $val[2][0]->total_peserta;
-            $smp = $val[3][0]->total_peserta;
+            $nama_kecamatan = isset($val[1][0]->nama_kecamatan) ? $val[1][0]->nama_kecamatan : '';
+            $tk = isset($val[1][0]->total_peserta) ? $val[1][0]->total_peserta : 0;
+            $sd = isset($val[2][0]->total_peserta) ? $val[2][0]->total_peserta : 0;
+            $smp = isset($val[3][0]->total_peserta) ? $val[3][0]->total_peserta : 0;
             $ar[] = array($nama_kecamatan,floatval($tk), floatval($tk),floatval($sd), floatval($sd),floatval($smp), floatval($smp));
         }
         // printJSON($ar);
         // // dd($data);
         return $ar;
     }
-    public function jumlah_peserta_absen()
+    public function jumlah_peserta_absen(Request $request)
     {
         $data = DB::table('m_kecamatan as ta')
         ->leftjoin('m_sekolahan as tc', 'tc.id_kecamatan', 'ta.id_kecamatan')
@@ -57,10 +64,17 @@ class DashboardController extends Controller
         ->leftjoin(DB::RAW(" (SELECT * from t_absen where id_status = 0 ) td"), function($join){
                 $join->on('td.id_user','=','tx.id_user');
         })
-        ->select(DB::RAW('count(td.id_user) as total_peserta,te.nama_jenjang, te.id_jenjang, ta.id_kecamatan, ta.nama_kecamatan'))
-        ->groupby('ta.id_kecamatan','te.id_jenjang')
-        ->get();
-
+        ->leftjoin(DB::RAW(" (SELECT count(*) nilai_gupres, id_user from t_nilai_ujian where id_kategori_ujian = 13 group by id_user ) tdx"), function($join){
+            $join->on('tdx.id_user','=','tx.id_user');
+        })
+        ->select(DB::RAW('count(td.id_user) as total_peserta,te.nama_jenjang, te.id_jenjang, ta.id_kecamatan, ta.nama_kecamatan'));
+        
+        if( !empty($request->is_gupres) ){
+            $data->where('tdx.nilai_gupres','>',0); 
+        }
+        $data->groupby('ta.id_kecamatan','te.id_jenjang')->get();
+        $data = $data->get();
+        
         $data = collect($data)->groupBy(['id_kecamatan','id_jenjang'])->toArray();
         $ar = array();
         $ar[] = array('Kecamatan','TK',array( 'type' => 'string', 'role' => 'annotation' ),'SD',array( 'type' => 'string', 'role' => 'annotation' ),'SMP',array( 'type' => 'string', 'role' => 'annotation' )); 
@@ -76,22 +90,39 @@ class DashboardController extends Controller
         // // dd($data);
         return $ar;
     }
-    public function jumlah_sekolah()
+    public function jumlah_sekolah(Request $request)
     {
-        $data = DB::table('m_sekolahan as ta')
-        ->join('m_kecamatan as td', 'td.id_kecamatan','ta.id_kecamatan')
-        ->select(DB::RAW('count(ta.id_sekolahan) as total_sekolah, ta.id_jenjang, td.id_kecamatan, td.nama_kecamatan'))
-        ->groupby('td.id_kecamatan','ta.id_jenjang')
-        ->get();
+        
+        if(!empty($request->is_gupres)){
+            $s = DB::select("SELECT * FROM t_nilai_ujian ta LEFT JOIN m_user_sekolah tb ON tb.id_user = ta.id_user WHERE ta.id_kategori_ujian = 13 GROUP BY tb.id_sekolah");
+            $h = collect( $s )->pluck('id_sekolah')->toArray() ;
+            // printJSON($h);
+           $data = DB::table('m_sekolahan as ta')
+           ->join('m_kecamatan as td', 'td.id_kecamatan','ta.id_kecamatan')
+           ->select(DB::RAW('count(ta.id_sekolahan) as total_sekolah, ta.id_jenjang, td.id_kecamatan, td.nama_kecamatan'))
+           ->whereRaw("id_sekolahan in (".implode(',' , $h).")")
+           ->groupby('td.id_kecamatan','ta.id_jenjang')
+           ->get();
 
+
+        }else{
+
+            $data = DB::table('m_sekolahan as ta')
+            ->join('m_kecamatan as td', 'td.id_kecamatan','ta.id_kecamatan')
+            ->select(DB::RAW('count(ta.id_sekolahan) as total_sekolah, ta.id_jenjang, td.id_kecamatan, td.nama_kecamatan'))
+            ->groupby('td.id_kecamatan','ta.id_jenjang')
+            ->get();
+        }
+
+        // printJSON($data);
         $data = collect($data)->groupBy(['id_kecamatan','id_jenjang'])->toArray();
         $ar = array();
         $ar[] = array('Kecamatan','TK',array( 'type' => 'string', 'role' => 'annotation' ),'SD',array( 'type' => 'string', 'role' => 'annotation' ),'SMP',array( 'type' => 'string', 'role' => 'annotation' )); 
         foreach($data as $k => $val){
-            $nama_kecamatan = $val[1][0]->nama_kecamatan;
-            $tk = $val[1][0]->total_sekolah;
-            $sd = $val[2][0]->total_sekolah;
-            $smp = $val[3][0]->total_sekolah;
+            $nama_kecamatan = isset($val[1][0]->nama_kecamatan) ? $val[1][0]->nama_kecamatan : '';
+            $tk = isset($val[1][0]->total_sekolah) ? $val[1][0]->total_sekolah : 0;
+            $sd = isset($val[2][0]->total_sekolah) ? $val[2][0]->total_sekolah : 0;
+            $smp = isset($val[3][0]->total_sekolah) ? $val[3][0]->total_sekolah : 0;
             $ar[] = array($nama_kecamatan,floatval($tk), floatval($tk),floatval($sd), floatval($sd),floatval($smp), floatval($smp));
         }
         // printJSON($ar);
@@ -106,6 +137,11 @@ class DashboardController extends Controller
      */
     public function rata_rata_nilai(Request $request)
     {
+        $gupres = " and ta.id_kategori_ujian = 13";
+        if(!empty($request->is_gupres)){
+            $gupres = " and ta.id_kategori_ujian != 13";
+
+        }
         $data = DB::select("SELECT
         tc.id_kecamatan,
         ta.id_kategori_ujian,
@@ -133,6 +169,7 @@ class DashboardController extends Controller
     WHERE
         tc.id_jenjang = $request->id_jenjang
         and tx.id_jabatan = $request->id_jabatan
+        $gupres
     GROUP BY
         tc.id_kecamatan");
         $data = collect($data)->groupBy(['id_kecamatan'])->toArray();
@@ -156,6 +193,12 @@ class DashboardController extends Controller
             $kategori_ujian = '';
             if(!empty($request->id_kategori_ujian)){
                $kategori_ujian = " and id_kategori_ujian = $request->id_kategori_ujian";
+            }
+            
+            if(!empty($request->is_gupres)){
+                $kategori_ujian = " and id_kategori_ujian = '13' ";
+            }else{
+                $kategori_ujian = " and id_kategori_ujian != '13' ";
             }
 
             $users = SekolahModels::leftjoin('m_user_sekolah as tb','tb.id_sekolah','m_sekolahan.id_sekolahan')
@@ -211,6 +254,11 @@ class DashboardController extends Controller
             $kategori_ujian = '';
             if(!empty($request->id_kategori_ujian)){
                $kategori_ujian = " and id_kategori_ujian = $request->id_kategori_ujian";
+            }
+            if(!empty($request->is_gupres)){
+                $kategori_ujian = " and id_kategori_ujian = '13' ";
+            }else{
+                $kategori_ujian = " and id_kategori_ujian != '13' ";
             }
             $users = SekolahModels::leftjoin('m_user_sekolah as tb','tb.id_sekolah','m_sekolahan.id_sekolahan')
             ->leftjoin('m_user as tf','tf.id_user','tb.id_user')
@@ -283,6 +331,11 @@ class DashboardController extends Controller
             }
             if(!empty($request->id_kategori_ujian)){
                 $users->where('ta.id_kategori_ujian', $request->id_kategori_ujian);
+            }
+            if(!empty($request->is_gupres)){
+                $users->where('ta.id_kategori_ujian', 13); 
+            }else{
+                $users->where('ta.id_kategori_ujian', '!=' ,13); 
             }
             if(!empty($request->id_jenjang)){
                 $users->where('tc.id_jenjang', $request->id_jenjang);

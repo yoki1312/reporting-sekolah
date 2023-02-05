@@ -10,6 +10,7 @@ use App\Http\Controllers\ReferensiSelect2Controller;
 use App\Http\Controllers\KategoriUjianController;
 use App\Http\Controllers\KecamatanController;
 use App\Http\Controllers\SekolahController;
+use App\Http\Controllers\SpkCOntroller;
 use App\Http\Controllers\UserController;
 use Illuminate\Contracts\Session\Session;
 use Illuminate\Support\Facades\DB;
@@ -133,12 +134,26 @@ Route::get('/dashboard-data', function () {
 Route::get('/dashboard-statistik', function () {
         return view('statistik');
     });
+
+Route::get('/dashboard-data/gupres', function () {
+        return view('dashboard');
+    });
+Route::get('/dashboard-statistik/gupres', function () {
+        return view('statistik');
+    });
 Route::middleware(['auth'])->group(function () {
     Route::get('/statistik', function () {
         return view('statistik');
     });
     Route::get('/', function () {
         return view('dashboard');
+    });
+    
+    Route::get('/statistik/gupres', function () {
+        return view('gupres-dashboard.statistik');
+    });
+    Route::get('/gupres', function () {
+        return view('gupres-dashboard.dashboard');
     });
     Route::resource('jenjang', JenjangController::class);
     Route::resource('user', UserController::class);
@@ -151,7 +166,11 @@ Route::middleware(['auth'])->group(function () {
     Route::get('hasil_ujian/detail/{id_guru}', [HasilUjianController::class,'show']);
     Route::get('resetPassword/{id_sekolahan}', [SekolahController::class,'resetPassword']);
     Route::post('gantiPassword', [SekolahController::class,'gantiPassword']);
+
     Route::get('hasil_ujian_pdf_detail/detail/{id_guru}', [HasilUjianController::class,'hasil_ujian_pdf_detail']);
+    
+    Route::get('spk_smart', [SpkCOntroller::class,'spk_smart']);
+    Route::get('spk_saw', [SpkCOntroller::class,'spk_saw']);
     
 });
 Route::post('dashboard/jumlah_peserta', [DashboardController::class,'jumlah_peserta']);
