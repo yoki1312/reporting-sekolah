@@ -36,6 +36,7 @@ class HasilUjianController extends Controller
                 $users->where('tb.id_jabatan', $request->id_jabatan);
             }
             
+            
             if(!empty($request->id_kecamatan)){
                 $id_kec = implode(",",$request->id_kecamatan);
                 $users->whereRaw("td.id_kecamatan in ($id_kec)");

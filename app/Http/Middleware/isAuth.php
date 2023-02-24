@@ -17,7 +17,7 @@ class isAuth
      */
     public function handle(Request $request, Closure $next)
     {
-        if(!isset(Auth::user()->id_user)){
+        if(!isset(Auth::user()->id_sekolahan)){
             return redirect('dataLogin');
         }
         return $next($request);
