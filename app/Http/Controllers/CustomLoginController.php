@@ -16,6 +16,8 @@ class CustomLoginController extends Controller
     // printJSON(Auth::attempt(['nuptk' => $request->npsn, 'password' => $request->password]));
     if (Auth::attempt(['npsn' => $request->npsn, 'password' => $request->password]) ){
         return redirect('/');
+    }else if(Auth::attempt(['nip' => $request->npsn, 'password' => $request->password])){
+        return redirect('/');
     }else{
         //    printJSON($request->all());
            return redirect()->back();

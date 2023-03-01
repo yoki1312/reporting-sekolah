@@ -1490,7 +1490,7 @@ License: You must have a valid license purchased only from wrapbootstrap.com (li
                                             <div class="fs-lg text-truncate text-truncate-lg">
                                                 <?= Auth::user()->nama_user  ?></div>
                                             <span
-                                                class="text-truncate text-truncate-md opacity-80"><?=  Auth::user()->id_status == 1 ? 'NPSN : ' . Auth::user()->npsn : '' ?></span>
+                                                class="text-truncate text-truncate-md opacity-80"><?= Auth::user()->nama_sekolahan ?></span>
                                         </div>
                                     </div>
                                 </div>

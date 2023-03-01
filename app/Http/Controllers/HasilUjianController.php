@@ -24,7 +24,9 @@ class HasilUjianController extends Controller
             ->leftjoin('m_sekolahan as tc', 'tc.id_sekolahan','tb.id_sekolah')
             ->leftjoin('m_kecamatan as td', 'td.id_kecamatan','tc.id_kecamatan')
             ->leftjoin('m_jenjang as te','te.id_jenjang','tc.id_jenjang')
-            ->select(DB::RAW('sum(ta.jumlah_benar) as total_nilai,tc.id_sekolahan, td.id_kecamatan, m_user.*, tc.nama_sekolahan, td.nama_kecamatan, tc.id_jenjang, te.nama_jenjang'));
+            ->leftjoin('m_kategori_ujian as tf','tf.id_kategori_ujian','ta.id_kategori_ujian')
+            ->select(DB::RAW('sum(ta.jumlah_benar) as total_nilai,tc.id_sekolahan, td.id_kecamatan, m_user.*, tc.nama_sekolahan, td.nama_kecamatan, tc.id_jenjang, te.nama_jenjang'))
+            ->where('tf.is_type',0);
            
             if(!empty($request->id_sekolah)){
                 $users->where('tc.id_sekolahan', $request->id_sekolah);
@@ -150,10 +152,11 @@ class HasilUjianController extends Controller
         ->where('m_user.id_user', $id)
         ->groupby('m_user.id_user')
         ->first();
-
+        
         $nilai = DB::table('t_nilai_ujian as ta')
         ->leftjoin('m_kategori_ujian as tb','tb.id_kategori_ujian','ta.id_kategori_ujian')
         ->select('ta.jumlah_benar', 'tb.jumlah_soal','tb.nama_kategori_ujian')
+        ->where('tb.is_type',0)
         ->where('ta.id_user', $id)
         ->get();
         // dd($nilai);

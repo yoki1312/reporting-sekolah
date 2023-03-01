@@ -251,14 +251,15 @@ class DashboardController extends Controller
     public function hasil_ujian_rata2(Request $request)
     {
         if (request()->ajax()) {
-            $kategori_ujian = '';
+            $kategori_ujian = ''; 
             if(!empty($request->id_kategori_ujian)){
-               $kategori_ujian = " and id_kategori_ujian = $request->id_kategori_ujian";
+               $kategori_ujian .= " and id_kategori_ujian = $request->id_kategori_ujian";
             }
+
             if(!empty($request->is_gupres)){
-                $kategori_ujian = " and id_kategori_ujian = '13' ";
+                $kategori_ujian .= " and id_kategori_ujian = '13' ";
             }else{
-                $kategori_ujian = " and id_kategori_ujian != '13' ";
+                $kategori_ujian .= " and id_kategori_ujian != '13' ";
             }
             $users = SekolahModels::leftjoin('m_user_sekolah as tb','tb.id_sekolah','m_sekolahan.id_sekolahan')
             ->leftjoin('m_user as tf','tf.id_user','tb.id_user')
