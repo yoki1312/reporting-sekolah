@@ -152,7 +152,7 @@
                     </div>
                     <div class="row form-group">
                         <div class="col-sm-4">
-                            Normalisasi
+                            Hasil akhir
                             <table class="table table-sm table-secondary">
                                 <thead>
                                     <tr>
